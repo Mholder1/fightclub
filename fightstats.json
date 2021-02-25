@@ -1,23 +1,22 @@
 {
-    "contestants":  [
-        {
-            "name": "Marcus",
-            "wins": 0,
-            "draws": 0,
-            "losses": 0
-        },
-        {
-            "name": "Lewis",
-            "wins": 0,
-            "draws": 0,
-            "losses": 0
-        },
-        {
-            "name": "Alex",
-            "wins": 0,
-            "draws": 0,
-            "losses": 0
-        }
-    
-    ]
+  "contestants": [
+    {
+      "name": "Marcus",
+      "wins": 0,
+      "draws": 0,
+      "losses": 0
+    },
+    {
+      "name": "Lewis",
+      "wins": 0,
+      "draws": 0,
+      "losses": 0
+    },
+    {
+      "name": "Alex",
+      "wins": 0,
+      "draws": 0,
+      "losses": 0
+    }
+  ]
 }
