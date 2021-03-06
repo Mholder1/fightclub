@@ -1,39 +1,48 @@
 import json
 
-
 def input_fightstats():    
-    names = input("Enter your name: ")
+    name = input("Enter your name: ")
     matchup = input("Who was your opponent?: ")
     winner = input("Who claimed victory in this contest?: ")
+    name = name.capitalize()
+    matchup = matchup.capitalize()
+    winner = winner.capitalize()
 
     with open('fightstats.json', 'r') as f:
         HousematesL = json.loads(f.read())
 
-        for person in range(len(HousematesL['contestants'])):
-            
+        draw = False
+        if name == winner:
+            loser = matchup
+            winner = name
+        elif matchup == winner:
+            winner = matchup
+            loser = name
+        else:
+            draw = True
+
+        for person in range(len(HousematesL['contestants'])):  
             if winner in HousematesL['contestants'][person]['name']:
                 HousematesL['contestants'][person]['wins'] = HousematesL['contestants'][person]['wins'] + 1
-            else:
-                pass
 
-            if matchup != winner and names == winner:
+            if loser in HousematesL['contestants'][person]['name']:
+                HousematesL['contestants'][person]['losses'] = HousematesL['contestants'][person]['losses'] + 1
+
+            if draw:
+                if name in HousematesL['contestants'][person]['name']:
+                    HousematesL['contestants'][person]['draws'] = HousematesL['contestants'][person]['draws'] + 1
                 if matchup in HousematesL['contestants'][person]['name']:
-                    HousematesL['contestants'][person]['losses'] = HousematesL['contestants'][person]['losses'] + 1
-            if names != winner and matchup == winner:
-                if names in HousematesL['contestants'][person]['name']:
-                    HousematesL['contestants'][person]['losses'] = HousematesL['contestants'][person]['losses'] + 1
-            if names != winner:
-                if winner != matchup:
-                    if names in HousematesL['contestants'][person]['name']:
-                        HousematesL['contestants'][person]['draws'] = HousematesL['contestants'][person]['draws'] + 1
-                    if matchup in HousematesL['contestants'][person]['name']:
-                        HousematesL['contestants'][person]['draws'] = HousematesL['contestants'][person]['draws'] + 1
+                    HousematesL['contestants'][person]['draws'] = HousematesL['contestants'][person]['draws'] + 1
 
-    fightfile = json.dumps(HousematesL, indent = 2)
+        for value in HousematesL:
+            sorted_data = sorted(HousematesL['contestants'], key = lambda numbers: numbers['wins'], reverse=True)
+            fightfile = json.dumps({ 'contestants': sorted_data}, indent = 2)
 
-    with open('fightstats.json', 'w') as f:
-        f.write(fightfile)
 
+        with open('fightstats.json', 'w') as f:
+            f.write(fightfile)
+            print(fightfile)
+    
 
 
 
