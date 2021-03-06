@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style type="text/css">
+        span.bold-red {
+        color: red;
+        font-weight: bold;
+        }
+    </style>
+    <head>
+        <meta charset="utf-8">
+        <title>Fight Club</title>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <span class="bold-red">Fight Club</span>   
+        </div>
+        <div style="text-align: center;">
+            <a href={{url_for('gettable')}}>Get Table</a>
+        </div>
+        <div style="text-align: center;">
+            <input type="button" value="Add Fight" onclick="addfight('msg');" /> 
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+            <script>
+                function addfight(ev) {
+                    $.ajax({
+                        method: 'POST',
+                        url: {{ url_for('addfight')|tojson }},
+                        data: {{'"name": "Marcus", "matchup": "Lewis", "winner": "Marcus"'}}});
+                }
+            </script>  
+    </body>
+</html>
