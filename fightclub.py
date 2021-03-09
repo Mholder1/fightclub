@@ -12,9 +12,14 @@ def input_fightstats():
     name = name.capitalize()
     matchup = matchup.capitalize()
     winner = winner.capitalize()
+    return name, matchup, winner
 
+
+def amend_table(name, matchup, winner):
+   
     HousematesL = read_table()
 
+    
     draw = False
     if name == winner:
         loser = matchup
@@ -51,7 +56,8 @@ def input_fightstats():
 
 
 if __name__ == "__main__":
-    input_fightstats()
+    name, matchup, winner = input_fightstats()
+    amend_table(name, matchup, winner)
     
 
 
