@@ -29,6 +29,9 @@ def amend_table(name, matchup, winner):
         loser = name
     else:
         draw = True
+        loser = 'None'
+        winner = 'None'
+
 
     for person in range(len(HousematesL['contestants'])):  
         if winner in HousematesL['contestants'][person]['name']:
