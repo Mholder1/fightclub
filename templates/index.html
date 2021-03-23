@@ -9,6 +9,8 @@
     <head>
         <meta charset="utf-8">
         <title>Fight Club</title>
+
+        
     </head>
     <body>
         <div style="text-align: center;">
@@ -18,16 +20,12 @@
             <a href={{url_for('gettable')}}>Get Table</a>
         </div>
         <div style="text-align: center;">
-            <input type="button" value="Add Fight" onclick="addfight('msg');" /> 
+            <form action="/addfight/" method="post">
+                <button name="addfight" type="submit">Add Fight</button>
+            </form>
+
         </div>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-            <script>
-                function addfight(ev) {
-                    $.ajax({
-                        method: 'POST',
-                        url: {{ url_for('addfight')|tojson }},
-                        data: {{'"name": "Marcus", "matchup": "Lewis", "winner": "Marcus"'}}});
-                }
-            </script>  
+        
+        
     </body>
 </html>
