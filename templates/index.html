@@ -8,24 +8,54 @@
     </style>
     <head>
         <meta charset="utf-8">
-        <title>Fight Club</title>
-
-        
+        <title>Fight Club</title>       
     </head>
+
     <body>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type=text/javascript>
+                $(function() {
+                  $('a#addfight').on('click', function(e) {
+                    console.log('In the function')
+                    $.ajax({
+                        type: 'POST',
+                        url: "/addfight",
+                        processData: false,
+                        data: '{"name": "Marcus", "matchup": "Lewis", "winner": "Marcus"}',
+                        success: addfightSuccess,
+                        error: addfightFail,
+                        contentType: 'application/json',
+                        dataType: 'json'
+                    });
+                    function addfightSuccess(result) {
+                        alert("hello");
+                        alert(result.d);
+                    }
+                    function addfightFail(result) {
+                        alert("hello1");
+                        alert(result.status + ' ' + result.statusText);
+                    }
+                    return false;
+                });
+                });
+        </script>
+
+
         <div style="text-align: center;">
             <span class="bold-red">Fight Club</span>   
         </div>
+
         <div style="text-align: center;">
             <a href={{url_for('gettable')}}>Get Table</a>
         </div>
-        <div style="text-align: center;">
-            <form action="/addfight/" method="post">
-                <button name="addfight" type="submit">Add Fight</button>
-            </form>
 
+        <div style="text-align: center;">
+            <form>
+                <a href=# id=addfight><button class='btn btn-default'>Add Fight</button></a>
+            </form>
         </div>
-        
+  
         
     </body>
 </html>
