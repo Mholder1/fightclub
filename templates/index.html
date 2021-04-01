@@ -22,7 +22,7 @@
                         type: 'POST',
                         url: "/addfight",
                         processData: false,
-                        data: '{"name": "Marcus", "matchup": "Lewis", "winner": "Marcus"}',
+                        data: JSON.stringify(sorted_fights),
                         success: addfightSuccess,
                         error: addfightFail,
                         contentType: 'application/json',

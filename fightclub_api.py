@@ -21,11 +21,12 @@ def post_params_okay(mandatory_fields, req_data):
 
 @app.route('/addfight', methods =['POST'])
 def addfight():
-    #fight_data = request.get_json(force=True)
-    #if fight_data is None:
-        #return Response("No fight data posted.", 400, mimetype="text/plain")
-    #if not post_params_okay(("name", "winner", "matchup"), fight_data):
-        #return Response("Missing field data, must supply name, winner and matchup", 400, mimetype="text/plain")
+    fight_data = request.get_json(force=True)
+    sorted_fights = fightclub.amend_table(name, matchup, winner)
+    if fight_data is None:
+        return Response("No fight data posted.", 400, mimetype="text/plain")
+    if not post_params_okay(("name", "winner", "matchup"), fight_data):
+        return Response("Missing field data, must supply name, winner and matchup", 400, mimetype="text/plain")
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 
