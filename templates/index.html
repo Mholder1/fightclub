@@ -22,13 +22,13 @@
                         type: 'POST',
                         url: "/addfight",
                         processData: false,
-                        data: JSON.stringify(sorted_fights),
-                        success: addfightSuccess,
+                        data: '{"name": "Marcus", "matchup": "Lewis", "winner": "Marcus"}',
+                        success: addfight(),
                         error: addfightFail,
                         contentType: 'application/json',
                         dataType: 'json'
                     });
-                    function addfightSuccess(result) {
+                    function addfight(result) {
                         alert("hello");
                         alert(result.d);
                     }
