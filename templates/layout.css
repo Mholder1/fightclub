@@ -1,3 +1,79 @@
-form {
-  right: 20px;
+html {
+  background-color: #973737;
+}
+body {
+  background-color: #a57d0e;
+  margin: 50px;
+  padding: 0 20px 20px 20px;
+  border: 5px solid black;
+}
+h1 {
+  color: #973737;
+  font-size: 2em;
+  font-family: sans-serif;
+  border-bottom: 1px solid #375e97;
+  padding: 1em 1em 1em 0;
+}
+p,
+ul {
+  font-size: medium;
+  font-family: sans-serif;
+  box-sizing: border-box;
+  padding: 1em 1em 1em 0;
+}
+input {
+  width: 5%;
+  padding: 6px 10px;
+  margin: 0px 0;
+  box-sizing: border-box;
+  border-style: groove;
+  color: #973737;
+}
+div,
+a {
+  font-family: sans-serif;
+  color: #973737;
+  font-weight: bold;
+}
+
+em {
+  font-weight: bold;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+}
+
+#main {
+  overflow: auto;
+  padding-bottom: 180px;
+  /* must be same height as the footer */
+}
+
+#footer {
+  position: relative;
+  margin-top: -180px;
+  /* negative value of footer height */
+  height: 180px;
+  clear: both;
+}
+
+/* Opera Fix thanks to Maleika (Kohoutec) */
+
+body:before {
+  content: "";
+  height: 100%;
+  float: left;
+  width: 0;
+  margin-top: -32767px;
+  /* thank you Erik J - negate effect of float*/
 }
