@@ -1,31 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-    <style type="text/css">
-        span.bold-red {
-        color: red;
-        font-weight: bold;
-        }
-    </style>
-    <link rel="stylesheet" href="layout.css">
     <head>
         <meta charset="utf-8">
-        <title>Fight Club</title>       
+        <title>Fight Club</title>    
+        <link rel="stylesheet" href="/templates/layout.css"/>
     </head>
 
     <body>
-       
-        <div style="text-align: center;">
-            <span class="bold-red">Fight Club</span>   
-        </div>
+        <div id="wrap">
+            
+       <h1>Fight Club</h1>
 
+       <p>Welcome to Fight Club, here are some rules to fight club</p>
+
+       <ul>
+           <li>Tell <em> everyone </em> about fight club</li>
+       </ul>
+    
         <div style="text-align: center;">
             <a href={{url_for('gettable')}}>Get Table</a>
         </div>
+    
 
         <form style="text-align: center" action="{{ url_for('addfight') }}" method="post">
             <input type="submit" name="add" value="Add Fight">
         </form>
-  
+        <div id="main"></div>
+        </div>
+        <div id="footer">
+           
+                <p id="foot">The author of this website is <a href="https://www.twitter.com/Marcus_Holder1">@Marcus Holder</a></p>
+                <p id="foot">Email me with any enquiries or questions <a href="marcus.holder@gmail.com">here</a></p>
+                <p id="foot">Explore my gitHub here <a href="https://github.com/Mholder1">click me</a></p>
+            
+        </div>
+       
         
     </body>
 </html>
