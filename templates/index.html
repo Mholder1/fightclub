@@ -6,29 +6,14 @@
         font-weight: bold;
         }
     </style>
+    <link rel="stylesheet" href="layout.css">
     <head>
         <meta charset="utf-8">
         <title>Fight Club</title>       
     </head>
 
     <body>
-
-        <input type="button" id='addfight' name="fightbutton" value=" Add Fight " onclick="addfight()">
-
-        <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <script>
-            function addfight(){
-                $.ajax({
-                url: "addfight",
-                context: document.body
-                }).done(function() {
-                alert('finished python script');;
-                });
-            }
-        </script>
-
-  
-            
+       
         <div style="text-align: center;">
             <span class="bold-red">Fight Club</span>   
         </div>
@@ -37,7 +22,9 @@
             <a href={{url_for('gettable')}}>Get Table</a>
         </div>
 
-    
+        <form style="text-align: center" action="{{ url_for('addfight') }}" method="post">
+            <input type="submit" name="add" value="Add Fight">
+        </form>
   
         
     </body>
