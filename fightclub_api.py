@@ -19,11 +19,8 @@ def post_params_okay(mandatory_fields, req_data):
             return False
     return True
 
-@app.route('/addfight', methods =['POST'])
+@app.route('/addfight', methods =['GET', 'POST'])
 def addfight():
-    get_data = fightclub.amend_table(name, matchup, winner)
-    if addfight:
-        return get_data
     fight_data = request.get_json(force=True)
     if fight_data is None:
         return Response("No fight data posted.", 400, mimetype="text/plain")
