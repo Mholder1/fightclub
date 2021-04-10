@@ -2,7 +2,9 @@ import json
 from flask import Flask, request, render_template, redirect, url_for
 from flask_restful import Api
 from flask import Response
+import logging
 import fightclub
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -22,12 +24,14 @@ def post_params_okay(mandatory_fields, req_data):
 @app.route('/addfight', methods =['POST'])
 def addfight():
     fight_data = request.get_json(force=True)
-    sorted_fights = fightclub.amend_table(name, matchup, winner)
+    logging.info(f"fight data is {fight_data}")
     if fight_data is None:
         return Response("No fight data posted.", 400, mimetype="text/plain")
     if not post_params_okay(("name", "winner", "matchup"), fight_data):
         return Response("Missing field data, must supply name, winner and matchup", 400, mimetype="text/plain")
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
+    get_data = fightclub.amend_table(fight_data['name'], fight_data['matchup'], fight_data['winner'])
+    return Response(json.dumps(get_data), 200, mimetype='application/json')
 
 
 @app.route('/gettable')
@@ -35,6 +39,15 @@ def gettable():
     table = fightclub.read_table()
     return Response(json.dumps(table), 200, mimetype="application/json")
 
+def enable_logging():
+    log_datefmt = '%Y-%m-%d %H:%M:%S'
+    log_format = '[%(asctime)s] [fightclub_api] %(levelname)-7s %(message)s'
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    logger = logging.getLogger('fightclub_api')
+    logger.setLevel(logging.DEBUG)
+    logging.basicConfig(level=logging.INFO, datefmt=log_datefmt, format=log_format) 
+
 if __name__ == '__main__':
-  app.run(debug=True)
+    enable_logging()
+    app.run(debug=True)
 

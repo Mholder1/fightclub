@@ -1,4 +1,5 @@
 import json
+import logging
 
 def read_table():
     with open('fightstats.json', 'r') as f:
@@ -20,8 +21,7 @@ def amend_table(name, matchup, winner):
     
     HousematesL = read_table()
     #HousematesL is the file that contains the json data
-
-    
+ 
     draw = False
     if name == winner:
         loser = matchup
@@ -58,6 +58,7 @@ def amend_table(name, matchup, winner):
     for value in HousematesL:
         sorted_data = sorted(HousematesL['contestants'], key = lambda numbers: numbers['wins'], reverse=True)
         fightfile = json.dumps({ 'contestants': sorted_data}, indent = 2)
+    
         #looping through each item in json data, this sorts the file by wins in descending order
         #and dumping the sorted data to a file
 
@@ -65,6 +66,8 @@ def amend_table(name, matchup, winner):
     with open('fightstats.json', 'w') as f:
         f.write(fightfile)
         print(fightfile)
+    
+    return fightfile
     
 
 
