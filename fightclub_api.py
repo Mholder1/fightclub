@@ -2,12 +2,15 @@ import json
 from flask import Flask, request, render_template, redirect, url_for
 from flask_restful import Api
 from flask import Response
+from flask_cors import CORS, cross_origin
 import logging
 import fightclub
 
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/')
 def index():
@@ -22,6 +25,7 @@ def post_params_okay(mandatory_fields, req_data):
     return True
 
 @app.route('/addfight', methods =['POST'])
+@cross_origin()
 def addfight():
     fight_data = request.get_json(force=True)
     logging.info(f"fight data is {fight_data}")

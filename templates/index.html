@@ -8,38 +8,43 @@
     </style>
     <head>
         <meta charset="utf-8">
-        <title>Fight Club</title>       
+        <title>Fight Club</title>    
     </head>
 
     <body>
-
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script type=text/javascript>
-                $(function() {
-                  $('a#addfight').on('click', function(e) {
-                    console.log('In the function')
-                    $.ajax({
-                        type: 'POST',
-                        url: "/addfight",
-                        processData: false,
-                        data: '{"name": "Marcus", "matchup": "Lewis", "winner": "Marcus"}',
-                        success: addfight,
-                        error: addfightFail,
-                        contentType: 'application/json',
-                        dataType: 'json'
-                    });
-                    function addfight(result) {
-                        alert('result is ' + result);
-                    }
-                    function addfightFail(result) {
-                        alert("hello1");
-                        alert(result.status + ' ' + result.statusText);
-                    }
-                    return false;
+        <script>
+            async function postData(url = '', data = {}) {
+                console.log("URL is " + url + " data is " + JSON.stringify(data))
+                // Default options are marked with *
+                const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+      
+                body: JSON.stringify('{"name": "Marcus"}') // body data type must match "Content-Type" header
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
                 });
-                });
+            }
+  
         </script>
+        <div style="text-align: center;">
+            <button onclick='postData(url="/addfight", data={name: "Marcus", matchup: "Lewis", winner: "Marcus"})'>Add Fight</button>
+        </div>
 
+       
 
         <div style="text-align: center;">
             <span class="bold-red">Fight Club</span>   
@@ -47,12 +52,6 @@
 
         <div style="text-align: center;">
             <a href={{url_for('gettable')}}>Get Table</a>
-        </div>
-
-        <div style="text-align: center;">
-            <form>
-                <a href=# id=addfight><button class='btn btn-default'>Add Fight</button></a>
-            </form>
         </div>
   
         
