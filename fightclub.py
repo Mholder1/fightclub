@@ -66,6 +66,8 @@ def amend_table(name, matchup, winner):
         f.write(fightfile)
         print(fightfile)
     
+    return fightfile
+    
 
 
 

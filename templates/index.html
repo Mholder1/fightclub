@@ -22,9 +22,36 @@
         </div>
     
 
-        <form style="text-align: center" action="{{ url_for('addfight') }}" method="post">
-            <input type="submit" name="add" value="Add Fight">
-        </form>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type=text/javascript>
+                $(function() {
+                  $('a#addfight').on('click', function(e) {
+                    console.log('In the function')
+                    $.ajax({
+                        type: 'POST',
+                        url: "/addfight",
+                        processData: false,
+                        data: '{"name": "Marcus", "matchup": "Lewis", "winner": "Marcus"}',
+                        success: addfight,
+                        error: addfightFail,
+                        contentType: 'application/json',
+                        dataType: 'json'
+                    });
+                    function addfight(result) {
+                        alert('result is ' + result);
+                    }
+                    function addfightFail(result) {
+                        alert("hello1");
+                        alert(result.status + ' ' + result.statusText);
+                    }
+                    
+                    return false;
+                });
+                });
+        </script>
+        <div style="text-align: center;">
+            <a href=# id=addfight><button class='btn btn-default'>Add Fight</button></a>
+        </div>
         <div id="main"></div>
         </div>
         <div id="footer">
