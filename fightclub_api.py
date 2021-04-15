@@ -28,13 +28,13 @@ def post_params_okay(mandatory_fields, req_data):
 @cross_origin()
 def addfight():
     fight_data = request.get_json(force=True)
+    fight_data_loaded = json.loads(fight_data)
     logging.info(f"fight data is {fight_data}")
     if fight_data is None:
         return Response("No fight data posted.", 400, mimetype="text/plain")
     if not post_params_okay(("name", "winner", "matchup"), fight_data):
         return Response("Missing field data, must supply name, winner and matchup", 400, mimetype="text/plain")
-
-    get_data = fightclub.amend_table(fight_data['name'], fight_data['matchup'], fight_data['winner'])
+    get_data = fightclub.amend_table(fight_data_loaded['name'], fight_data_loaded['matchup'], fight_data_loaded['winner'])
     return Response(json.dumps(get_data), 200, mimetype='application/json')
 
 
