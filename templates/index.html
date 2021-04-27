@@ -16,13 +16,9 @@
         <script>
             
             async function postData(e) {
-                console.log("Start of PostData " + JSON.stringify(e))
-                let formData = new FormData(e.target.form);
-                console.log("PostData Two" + "data is " + JSON.stringify(formData))
                 e.preventDefault();
-                console.log("Start of PostDataThree")
-                const value = Object.fromEntries(formData.entries()); 
-                console.log("Start of PostDataFour")
+                const formData = new FormData(e.target);
+                const value = Object.fromEntries(formData.entries());
                 url = "/addfight";
                 console.log("URL is " + url + " data is " + JSON.stringify(value))
                 // Default options are marked with *
@@ -42,7 +38,7 @@
                     // 'Content-Type': 'application/x-www-form-urlencoded',
                 },
       
-                body: formData // body data type must match "Content-Type" header
+                body: formData// body data type must match "Content-Type" header
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -64,13 +60,13 @@
 
         <form id="addfight_form" name="addfight_form" style="text-align: center;">
             <label for="name">Name:</label><br>
-            <input type="text" id="addfight_name" name="addfight_name"><br>
+            <input type="text" id="name" name="addfight_name"><br>
             <label for="matchup">Opponent:</label><br>
-            <input type="text" id="addfight_matchup" name="addfight_matchup"><br>
+            <input type="text" id="matchup" name="addfight_matchup"><br>
             <label for="winner">Winner:</label><br>
-            <input type="text" id="addfight_winner" name="addfight_winner"><br><br>
+            <input type="text" id="winner" name="addfight_winner"><br><br>
             <button type="addfight">Add Fight</button>
-        </form>
+        </form><br><br>
 
         <div style="text-align: center;">
             <a href={{url_for('gettable')}}>Get Table</a>
