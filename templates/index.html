@@ -17,20 +17,11 @@
             
             async function postData(e) {
                 e.preventDefault();
-                console.log("after prevent default")
                 const formData = new FormData(e.target);
                 const value = Object.fromEntries(formData.entries());
-                console.log("after form entry ")
-                const dataContainer = document.getElementsByClassName('addfight_form');
-                console.log("after get element")
-                dataContainer.textContent = JSON.stringify(formData, null, ' ');
-                console.log("after text content")
-        
-
+                console.log({value})
 
                 url = "/addfight";
-                console.log("URL is " + url + " data is " + JSON.stringify(value))
-                // Default options are marked with *
                 const response = await fetch(url, {
                 
                 
@@ -47,7 +38,7 @@
                     // 'Content-Type': 'application/x-www-form-urlencoded',
                 },
       
-                body: formData// body data type must match "Content-Type" header
+                body: JSON.stringify(value)// body data type must match "Content-Type" header
                 })
                 .then(response => response.json())
                 .then(data => {
