@@ -12,9 +12,34 @@
     </head>
 
     <body>
+
+        <script>
+            const details = document.getElementById('login_form');
+
+            details.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+
+                const formData = new FormData(this);
+
+                fetch(info.php, {
+                    method: 'POST',
+                    body: 'formData'
+
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+
+            });
+            
+        </script>
     
         <script>
-            
+            // async function takes data from the form 'postdata' in which the user types in their name,
+            // who they fought and the winner of the duel, posts it to 'fightstats.json' and displays it as an
+            // alert 
             async function postData(e) {
                 e.preventDefault();
                 const formData = new FormData(e.target);
@@ -57,14 +82,20 @@
             <span class="bold-red">Fight Club</span><br><br><br><br><br>
         </div>
 
+        <form id="login_form" action="info.php" method="POST">
+            <input type="text" name="person" placeholder="Enter name">
+            <input type="text" name="email" placeholder="Enter Email">
+            <button type="submit" name="submit">Submit</button>
+        </form>
+
 
         <form id="addfight_form" name="addfight_form" style="text-align: center;">
             <label for="name">Name:</label><br>
-            <input type="text" id="name" name="name"><br>
+            <input type="text"  name="name"><br>
             <label for="matchup">Opponent:</label><br>
-            <input type="text" id="matchup" name="matchup"><br>
+            <input type="text"  name="matchup"><br>
             <label for="winner">Winner:</label><br>
-            <input type="text" id="winner" name="winner"><br><br>
+            <input type="text" name="winner"><br><br>
             <button type="addfight">Add Fight</button>
         </form><br><br>
 
@@ -72,12 +103,14 @@
             <a href={{url_for('gettable')}}>Get Table</a>
         </div>
 
+
+
         <script>
             const form = document.querySelector('#addfight_form');
             form.addEventListener('submit', postData);
         </script>
-    
-
         
+              
     </body>
 </html>
+    
