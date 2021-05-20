@@ -14,29 +14,6 @@
     <body>
 
         <script>
-            const details = document.getElementById('login_form');
-
-            details.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-
-                const formData = new FormData(this);
-
-                fetch(info.php, {
-                    method: 'POST',
-                    body: 'formData'
-
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-
-
-            });
-            
-        </script>
-    
-        <script>
             // async function takes data from the form 'postdata' in which the user types in their name,
             // who they fought and the winner of the duel, posts it to 'fightstats.json' and displays it as an
             // alert 
@@ -82,10 +59,10 @@
             <span class="bold-red">Fight Club</span><br><br><br><br><br>
         </div>
 
-        <form id="login_form" action="info.php" method="POST">
-            <input type="text" name="person" placeholder="Enter name">
+        <form id="login_form" method="POST">
+            <input type="text" name="name" placeholder="Enter name">
             <input type="text" name="email" placeholder="Enter Email">
-            <button type="submit" name="submit">Submit</button>
+            <button type="submit" name="submit" onclick="return('Your details have been saved')">Submit</button>
         </form>
 
 
