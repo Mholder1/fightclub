@@ -1,6 +1,8 @@
 import json
 import logging
 
+
+
 def read_table():
     with open('fightstats.json', 'r') as f:
         return json.loads(f.read())
