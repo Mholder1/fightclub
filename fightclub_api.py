@@ -40,7 +40,6 @@ def info():
                         request.form.get("email"),
                     )
                 )
-                print("Your details have been saved")
     return render_template("index.html")
 
 
