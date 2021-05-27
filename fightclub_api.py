@@ -74,6 +74,29 @@ except psycopg2.errors.DuplicateTable:
     pass
 
 
+def update_json():
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM fight_table;")
+            fight_table = cursor.fetchall()
+            new_add = fight_table['name']
+
+    HousematesL = fightclub.read_table()
+
+    if type(HousematesL) is dict:
+        HousematesL = [HousematesL]
+
+    HousematesL.append({
+        "name": new_add,
+        "wins": "0",
+        "draws": "0",
+        "losses": "0",
+    })
+
+    with open('fightstats.json', 'a') as outfile:
+        json.dumps(HousematesL, outfile)
+
+
 @app.route('/', methods=['POST', 'GET'])
 def info():
     if request.method == "POST":
