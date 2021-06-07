@@ -1,1 +1,22 @@
-{"contestants": [{"name": "Marcus", "wins": 29, "draws": 0, "losses": 0}, {"name": "Lewis", "wins": 2, "draws": 0, "losses": 20}, {"name": "Alex", "wins": 0, "draws": 0, "losses": 14}]}, {"name": "Steve", "wins": "1", "draws": "0", "losses": "0"}]
+{
+  "contestants": [
+    {
+      "name": "Marcus",
+      "wins": 22,
+      "draws": 0,
+      "losses": 0
+    },
+    {
+      "name": "Lewis",
+      "wins": 2,
+      "draws": 0,
+      "losses": 17
+    },
+    {
+      "name": "Alex",
+      "wins": 0,
+      "draws": 0,
+      "losses": 9
+    }
+  ]
+}

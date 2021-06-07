@@ -83,18 +83,17 @@ def update_json():
 
     HousematesL = fightclub.read_table()
 
-    if type(HousematesL) is dict:
-        HousematesL = [HousematesL]
-
-    HousematesL.append({
+    HousematesL['contestants'].append({
         "name": new_add,
-        "wins": "0",
-        "draws": "0",
-        "losses": "0",
+        "wins": 0,
+        "draws": 0,
+        "losses": 0,
     })
 
-    with open('fightstats.json', 'a') as outfile:
-        json.dumps(HousematesL, outfile)
+    outfile = json.dumps(HousematesL, indent=2)
+
+    with open('fightstats.json', 'w') as file:
+        file.write(outfile)
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -119,7 +118,7 @@ def show_login():
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM fight_table;")
             fight_table = cursor.fetchall()
-    return render_template("logins.html", entries=fight_table)
+    return render_template("logins.html", entries=fight_table, indent=2)
 
 
 if __name__ == '__main__':

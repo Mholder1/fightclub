@@ -42,19 +42,17 @@ def amend_table(name, matchup, winner):
     for person in range(len(HousematesL['contestants'])):
         if winner in HousematesL['contestants'][person]['name']:
             HousematesL['contestants'][person]['wins'] = HousematesL['contestants'][person]['wins'] + 1
-            # looping through json data, if the name of the winner is found in the 'name' parameter,
-            # that persons 'wins' increase by 1
 
         if loser in HousematesL['contestants'][person]['name']:
             HousematesL['contestants'][person]['losses'] = HousematesL['contestants'][person]['losses'] + 1
-            # if the name of the loser is found in 'name', that persons losses increase by 1
+
+   # if the name of the loser is found in 'name', that persons losses increase by 1
 
         if draw:
             if name in HousematesL['contestants'][person]['name']:
                 HousematesL['contestants'][person]['draws'] = HousematesL['contestants'][person]['draws'] + 1
             if matchup in HousematesL['contestants'][person]['name']:
                 HousematesL['contestants'][person]['draws'] = HousematesL['contestants'][person]['draws'] + 1
-                # if the match is a draw, both the user and the opponents 'draws' increase by 1
 
     for value in HousematesL:
         sorted_data = sorted(
@@ -66,9 +64,6 @@ def amend_table(name, matchup, winner):
 
     with open('fightstats.json', 'w') as f:
         f.write(fightfile)
-        print(fightfile)
-
-    return fightfile
 
 
 if __name__ == "__main__":
