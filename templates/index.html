@@ -14,7 +14,9 @@
     <body>
 
         <script>
-
+            // async function takes data from the form 'postdata' in which the user types in their name,
+            // who they fought and the winner of the duel, posts it to 'fightstats.json' and displays it as an
+            // alert
             async function postData(e) {
                 e.preventDefault();
                 const formData = new FormData(e.target);
@@ -75,27 +77,34 @@
             <span class="bold-red">Fight Club</span><br><br><br><br><br>
         </div>
 
+        <form id="login_form" method="POST">
+            <input type="text" name="name" placeholder="Enter name">
+            <input type="text" name="email" placeholder="Enter Email">
+            <button type="submit" name="submit" onclick="return('Your details have been saved')">Submit</button>
+        </form>
+
 
         <form id="addfight_form" name="addfight_form" style="text-align: center;">
             <label for="name">Name:</label><br>
-            <input type="text" id="name" name="name"><br>
+            <input type="text"  name="name"><br>
             <label for="matchup">Opponent:</label><br>
-            <input type="text" id="matchup" name="matchup"><br>
+            <input type="text"  name="matchup"><br>
             <label for="winner">Winner:</label><br>
-            <input type="text" id="winner" name="winner"><br><br>
+            <input type="text" name="winner"><br><br>
             <button type="addfight">Add Fight</button>
         </form><br><br>
+
+        <div style="text-align: center;">
+            <a href={{url_for('gettable')}}>Get Table</a>
+        </div>
+
+
 
         <script>
             const form = document.querySelector('#addfight_form');
             form.addEventListener('submit', postData);
         </script>
 
-        <div style="text-align: center;">
-            <input id="getTable" type="button" value="Get Table" onclick="getTableFunction();" />
-        </div>
-
-        <p id="fightTable"></p>
 
     </body>
 </html>
