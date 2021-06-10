@@ -1,5 +1,7 @@
 import json
 from flask import Flask, request, render_template, redirect, url_for
+import flask.scaffold
+flask.helpers._endpoint_from_view_func = flask.scaffold._endpoint_from_view_func
 from flask_restful import Api
 from flask import Response
 from flask_cors import CORS, cross_origin
@@ -50,7 +52,7 @@ def enable_logging():
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     logger = logging.getLogger('fightclub_api')
     logger.setLevel(logging.DEBUG)
-    logging.basicConfig(level=logging.INFO, datefmt=log_datefmt, format=log_format) 
+    logging.basicConfig(level=logging.INFO, datefmt=log_datefmt, format=log_format)
 
 if __name__ == '__main__':
     enable_logging()
