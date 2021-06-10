@@ -94,17 +94,16 @@
             <button type="addfight">Add Fight</button>
         </form><br><br>
 
-        <div style="text-align: center;">
-            <a href={{url_for('gettable')}}>Get Table</a>
-        </div>
-
-
-
         <script>
             const form = document.querySelector('#addfight_form');
             form.addEventListener('submit', postData);
         </script>
 
+        <div style="text-align: center;">
+            <input id="getTable" type="button" value="Get Table" onclick="getTableFunction();" />
+        </div>
+
+        <p id="fightTable"></p>
 
     </body>
 </html>
