@@ -8,20 +8,28 @@
     </style>
     <head>
         <meta charset="utf-8">
-        <title>Fight Club</title>    
+        <title>Fight Club</title>
     </head>
 
     <body>
+
         <script>
-            async function postData(url = '', data = {}) {
-                console.log("URL is " + url + " data is " + JSON.stringify(data))
-                // Default options are marked with *
+            // async function takes data from the form 'postdata' in which the user types in their name,
+            // who they fought and the winner of the duel, posts it to 'fightstats.json' and displays it as an
+            // alert
+            async function postData(e) {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const value = Object.fromEntries(formData.entries());
+                console.log({value})
+
+                url = "/addfight";
                 const response = await fetch(url, {
-                
-                
+
+
                 method: 'POST', // *GET, POST, PUT, DELETE, etc.
                 mode: 'cors', // no-cors, *cors, same-origin
-                cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
+                cache: 'default', // *default, no-cache, reload, force-cache, only-if-cachaddfight_ed
                 credentials: 'same-origin', // include, *same-origin, omit
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
@@ -31,8 +39,8 @@
 
                     // 'Content-Type': 'application/x-www-form-urlencoded',
                 },
-      
-                body: '{"name": "Marcus", "matchup": "Lewis", "winner": "Marcus"}' // body data type must match "Content-Type" header
+
+                body: JSON.stringify(value)// body data type must match "Content-Type" header
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -43,22 +51,59 @@
                     console.error('Error:', error);
                 });
             }
-  
+
+            function drawTableFunction(data) {
+                var txt = ""
+                txt += "<table border='1'>"
+                for (x in data.contestants) {
+                    console.log(data.contestants)
+                    txt += "<tr><td>" + data.contestants[x].name + "</td><td>" + data.contestants[x].wins + "</td><td>" + data.contestants[x].draws + "</td><td>" + data.contestants[x].losses + "</td></tr>";
+                }
+                txt += "</table>"
+                document.getElementById("fightTable").innerHTML = txt;
+            }
+
+            function getTableFunction(){
+
+                fetch('/gettable')
+                .then(response => response.json())
+                .then(data => drawTableFunction(data));
+            }
+
         </script>
-        <div style="text-align: center;">
-            <button onclick='postData(url="/addfight", data={"name": "Marcus", "matchup": "Lewis", "winner": "Marcus"})'>Add Fight</button>
-        </div>
 
-       
 
         <div style="text-align: center;">
-            <span class="bold-red">Fight Club</span>   
+            <span class="bold-red">Fight Club</span><br><br><br><br><br>
         </div>
 
+        <form id="login_form" method="POST">
+            <input type="text" name="name" placeholder="Enter name">
+            <input type="text" name="email" placeholder="Enter Email">
+            <button type="submit" name="submit" onclick="return('Your details have been saved')">Submit</button>
+        </form>
+
+
+        <form id="addfight_form" name="addfight_form" style="text-align: center;">
+            <label for="name">Name:</label><br>
+            <input type="text"  name="name"><br>
+            <label for="matchup">Opponent:</label><br>
+            <input type="text"  name="matchup"><br>
+            <label for="winner">Winner:</label><br>
+            <input type="text" name="winner"><br><br>
+            <button type="addfight">Add Fight</button>
+        </form><br><br>
+
+        <script>
+            const form = document.querySelector('#addfight_form');
+            form.addEventListener('submit', postData);
+        </script>
+
         <div style="text-align: center;">
-            <a href={{url_for('gettable')}}>Get Table</a>
+            <input id="getTable" type="button" value="Get Table" onclick="getTableFunction();" />
         </div>
-  
-        
+
+        <p id="fightTable"></p>
+
     </body>
 </html>
