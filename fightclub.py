@@ -18,6 +18,76 @@ def input_fightstats():
     return name, matchup, winner
 
 
+def addNew(name, matchup, winner):
+    HousematesL = read_table()
+    draw = False
+    if name == winner:
+        loser = matchup
+        winner = name
+    elif matchup == winner:
+        winner = matchup
+        loser = name
+    else:
+        draw = True
+
+    winnerFound = False
+    loserFound = False
+
+    for person in HousematesL['contestants']:
+        if winner in person['name']:
+            winnerFound = True
+        if loser in person['name']:
+            loserFound = True
+    if winnerFound != True:
+        HousematesL['contestants'].append({
+            "name": winner,
+            "wins": 1,
+            "draws": 0,
+            "losses": 0,
+        })
+
+    if loserFound != True:
+        HousematesL['contestants'].append({
+            "name": loser,
+            "wins": 0,
+            "draws": 0,
+            "losses": 1,
+        })
+
+    HousematesDumped = json.dumps(HousematesL, indent=2)
+    with open('fightstats.json', 'w') as f:
+        f.write(HousematesDumped)
+
+
+def addNewDraw(name, matchup):
+    HousematesL = read_table()
+    for person in range(len(HousematesL['contestants'])):
+        if name in HousematesL['contestants'][person]['name']:
+            return True
+        if matchup in HousematesL['contestants'][person]['name']:
+            return True
+
+    if name != True:
+        HousematesL['contestants'].append({
+            "name": name,
+            "wins": 0,
+            "draws": 1,
+            "losses": 0,
+        })
+
+    if matchup != True:
+        HousematesL['contestants'].append({
+            "name": matchup,
+            "wins": 0,
+            "draws": 1,
+            "losses": 0,
+        })
+
+    HousematesDumped = json.dumps(HousematesL, indent=2)
+    with open('fightstats.json', 'w') as f:
+        f.write(HousematesDumped)
+
+
 def amend_table(name, matchup, winner):
 
     HousematesL = read_table()
@@ -64,8 +134,11 @@ def amend_table(name, matchup, winner):
 
     with open('fightstats.json', 'w') as f:
         f.write(fightfile)
+        print(fightfile)
 
 
 if __name__ == "__main__":
     name, matchup, winner = input_fightstats()
     amend_table(name, matchup, winner)
+    addNew(name, matchup, winner)
+    addNewDraw(name, matchup)

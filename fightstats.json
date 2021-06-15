@@ -4,7 +4,7 @@
       "name": "Marcus",
       "wins": 22,
       "draws": 0,
-      "losses": 0
+      "losses": 2
     },
     {
       "name": "Lewis",
@@ -13,10 +13,34 @@
       "losses": 17
     },
     {
+      "name": "Steve",
+      "wins": 1,
+      "draws": 0,
+      "losses": 9
+    },
+    {
+      "name": "Barnaby",
+      "wins": 1,
+      "draws": 0,
+      "losses": 0
+    },
+    {
       "name": "Alex",
       "wins": 0,
       "draws": 0,
       "losses": 9
+    },
+    {
+      "name": "Jason",
+      "wins": 0,
+      "draws": 0,
+      "losses": 1
+    },
+    {
+      "name": "Luisa",
+      "wins": 1,
+      "draws": 0,
+      "losses": 0
     }
   ]
 }
