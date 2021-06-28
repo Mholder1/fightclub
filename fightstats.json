@@ -2,25 +2,25 @@
   "contestants": [
     {
       "name": "Marcus",
-      "wins": 22,
+      "wins": 29,
       "draws": 0,
-      "losses": 2
-    },
-    {
-      "name": "Lewis",
-      "wins": 2,
-      "draws": 0,
-      "losses": 17
+      "losses": 1
     },
     {
       "name": "Steve",
       "wins": 1,
       "draws": 0,
-      "losses": 9
+      "losses": 1
     },
     {
-      "name": "Barnaby",
+      "name": "cheese",
       "wins": 1,
+      "draws": 0,
+      "losses": 0
+    },
+    {
+      "name": "Lewis",
+      "wins": 0,
       "draws": 0,
       "losses": 0
     },
@@ -28,19 +28,13 @@
       "name": "Alex",
       "wins": 0,
       "draws": 0,
-      "losses": 9
+      "losses": 41
     },
     {
-      "name": "Jason",
+      "name": "dereck",
       "wins": 0,
       "draws": 0,
       "losses": 1
-    },
-    {
-      "name": "Luisa",
-      "wins": 1,
-      "draws": 0,
-      "losses": 0
     }
   ]
 }

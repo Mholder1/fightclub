@@ -13,6 +13,31 @@
 
   <body>
     <script>
+
+
+
+      function drawTableFunction(data) {
+        console.log("in draw table", data)
+        var txt = "";
+        txt += "<table border='1'>";
+        for (x in data.contestants) {
+          console.log(data.contestants);
+          txt +=
+          "<tr><td>" +
+          data.contestants[x].name +
+          "</td><td>" +
+          data.contestants[x].wins +
+          "</td><td>" +
+          data.contestants[x].draws +
+          "</td><td>" +
+          data.contestants[x].losses +
+          "</td></tr>";
+        }
+        txt += "</table>";
+        document.getElementById("fightTable").innerHTML = txt;
+      }
+
+
       // async function takes data from the form 'postdata' in which the user types in their name,
       // who they fought and the winner of the duel, posts it to 'fightstats.json' and displays it as an
       // alert
@@ -20,7 +45,8 @@
         e.preventDefault();
         const formData = new FormData(e.target);
         const value = Object.fromEntries(formData.entries());
-        console.log({ value });
+        newValue = JSON.stringify(value)
+        console.log(newValue);
 
         url = "/addfight";
         const response = await fetch(url, {
@@ -37,36 +63,16 @@
             // 'Content-Type': 'application/x-www-form-urlencoded',
           },
 
-          body: JSON.stringify(value), // body data type must match "Content-Type" header
+          body: newValue, // body data type must match "Content-Type" header
         })
           .then((response) => response.json())
           .then((data) => {
-            alert(data);
+            drawTableFunction(data);
             console.log("Success:", data);
           })
           .catch((error) => {
-            console.error("Error:", error);
+            console.error("Error returned from post:", error);
           });
-      }
-
-      function drawTableFunction(data) {
-        var txt = "";
-        txt += "<table border='1'>";
-        for (x in data.contestants) {
-          console.log(data.contestants);
-          txt +=
-            "<tr><td>" +
-            data.contestants[x].name +
-            "</td><td>" +
-            data.contestants[x].wins +
-            "</td><td>" +
-            data.contestants[x].draws +
-            "</td><td>" +
-            data.contestants[x].losses +
-            "</td></tr>";
-        }
-        txt += "</table>";
-        document.getElementById("fightTable").innerHTML = txt;
       }
 
       function getTableFunction() {
