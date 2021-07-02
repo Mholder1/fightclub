@@ -32,7 +32,7 @@ except psycopg2.errors.DuplicateTable:
     pass
 
 
-@app.route('/success', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def info():
     if request.method == "POST":
         print(request.form)

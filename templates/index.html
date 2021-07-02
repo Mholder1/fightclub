@@ -1,51 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <style type="text/css">
-    span.bold-red {
-      color: red;
-      font-weight: bold;
-    }
-  </style>
   <head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='stylesheets/style.css') }}"
+    />
     <meta charset="utf-8" />
-    <title>Fight Club</title>
   </head>
 
   <body>
+    <h1>Fight Club</h1>
     <script>
-
-
-
       function drawTableFunction(data) {
-        console.log("in draw table", data)
+        console.log("in draw table", data);
         var txt = "";
         txt += "<table border='1'>";
         for (x in data.contestants) {
           console.log(data.contestants);
           txt +=
-          "<tr><td>" +
-          data.contestants[x].name +
-          "</td><td>" +
-          data.contestants[x].wins +
-          "</td><td>" +
-          data.contestants[x].draws +
-          "</td><td>" +
-          data.contestants[x].losses +
-          "</td></tr>";
+            "<tr><td>" +
+            data.contestants[x].name +
+            "</td><td>" +
+            data.contestants[x].wins +
+            "</td><td>" +
+            data.contestants[x].draws +
+            "</td><td>" +
+            data.contestants[x].losses +
+            "</td></tr>";
         }
         txt += "</table>";
         document.getElementById("fightTable").innerHTML = txt;
       }
 
-
-      // async function takes data from the form 'postdata' in which the user types in their name,
-      // who they fought and the winner of the duel, posts it to 'fightstats.json' and displays it as an
-      // alert
       async function postData(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
         const value = Object.fromEntries(formData.entries());
-        newValue = JSON.stringify(value)
+        newValue = JSON.stringify(value);
         console.log(newValue);
 
         url = "/addfight";
@@ -82,21 +73,22 @@
       }
     </script>
 
-    <div style="text-align: center">
-      <span class="bold-red">Fight Club</span><br /><br /><br /><br /><br />
+    <div class="topnav">
+      <a href="#">Home</a>
+      <a href="/leaguetable">League Table</a>
+      <a href="/signup">Sign up</a>
     </div>
+    <br />
 
-    <form id="login_form" method="POST">
-      <input type="text" name="name" placeholder="Enter name" />
-      <input type="text" name="email" placeholder="Enter Email" />
-      <button
-        type="submit"
-        name="submit"
-        onclick="return('Your details have been saved')"
-      >
-        Submit
-      </button>
-    </form>
+    <div style="text-align: right">
+      <form id="login_form" method="POST">
+        Save your details to our database
+        <br />
+        <input type="text" name="name" placeholder="Enter name" /><br />
+        <input type="text" name="email" placeholder="Enter Email" /><br />
+        <button type="submit" name="submit">Submit</button>
+      </form>
+    </div>
 
     <form id="addfight_form" name="addfight_form" style="text-align: center">
       <label for="name">Name:</label><br />
