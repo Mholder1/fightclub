@@ -2,7 +2,7 @@
   "contestants": [
     {
       "name": "Marcus",
-      "wins": 1,
+      "wins": 2,
       "draws": 0,
       "losses": 0
     },
@@ -22,7 +22,7 @@
       "name": "Alex",
       "wins": 0,
       "draws": 0,
-      "losses": 1
+      "losses": 2
     }
   ]
 }

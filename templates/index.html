@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='stylesheets/style.css') }}"
-    />
-    <meta charset="utf-8" />
-  </head>
-
+{% extends 'newpage.html' %}
+{% block title %} Fightclub - Home {% endblock title %}
+{% block content %}
   <body>
     <h1>Fight Club</h1>
     <script>
@@ -73,13 +66,6 @@
       }
     </script>
 
-    <div class="topnav">
-      <a href="#">Home</a>
-      <a href="/leaguetable">League Table</a>
-      <a href="/signup">Sign up</a>
-    </div>
-    <br />
-
     <div style="text-align: right">
       <form id="login_form" method="POST">
         Save your details to our database
@@ -113,8 +99,9 @@
         value="Get Table"
         onclick="getTableFunction();"
       />
-    </div>
 
-    <p id="fightTable"></p>
+      <p id="fightTable"></p>
+
   </body>
 </html>
+{% endblock %}

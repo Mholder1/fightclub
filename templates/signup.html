@@ -1,0 +1,16 @@
+{% extends 'newpage.html' %} {% block title %} Register! {% endblock title %} {%
+block content %}
+<body>
+  <h1>Join our database!</h1>
+  <div style="text-align: center">
+    <form id="login_form" method="POST">
+      Save your details to our database
+      <br />
+      <input type="text" name="name" placeholder="Enter name" /><br />
+      <input type="text" name="email" placeholder="Enter Email" /><br />
+      <button type="submit" name="submit">Submit</button>
+    </form>
+  </div>
+</body>
+
+{% endblock %}

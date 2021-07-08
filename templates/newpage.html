@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='stylesheets/style.css') }}"
+    />
+    <meta charset="utf-8" />
+    <title>{% block title %} Fightclub {% endblock title %}</title>
+  </head>
+
+  <body>
+    <div class="topnav">
+      <a href={{ url_for('index')}}>Home</a>
+      <a href={{ url_for('leaguetable')}}>League Table</a>
+      <a href={{ url_for('signup')}}>Sign up</a>
+      <a href={{ url_for('subscribe')}}>Subscribe</a>
+    </div>
+    <br />
+  </body>
+</html>
+
+{% block content %} {% endblock %}

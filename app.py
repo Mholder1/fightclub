@@ -8,6 +8,7 @@ from flask_restful import Api
 import json
 from flask import Flask, request, render_template, redirect, url_for
 
+subscribers = []
 
 app = Flask(__name__)
 api = Api(app)
@@ -18,6 +19,42 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
+
+
+@app.route('/leaguetable')
+def leaguetable():
+    return render_template('leaguetable.html')
+
+
+@app.route('/logins')
+def logins():
+    return render_template('logins.html')
+
+
+@app.route('/subscribe')
+def subscribe():
+    return render_template('subscribe.html')
+
+
+@app.route('/form', methods=['POST'])
+def form():
+    first_name = request.form.get("first_name")
+    last_name = request.form.get("last_name")
+    email_name = request.form.get("email_name")
+    if not first_name or not last_name or not email_name:
+        error_statement = "All forms fields required..."
+        return render_template("fail.html", error_statement=error_statement, first_name=first_name,
+                               last_name=last_name,
+                               email_name=email_name)
+
+    subscribers.append(f'{first_name} {last_name} | {email_name}')
+    message = (f'Thank you {first_name} for subscribing')
+    return render_template('form.html', subscribers=subscribers, message=message)
 
 
 def post_params_okay(mandatory_fields, req_data):

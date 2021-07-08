@@ -1,0 +1,48 @@
+{% extends 'newpage.html' %}
+{% block title %} League {% endblock title %}
+
+{% block content %}
+  <body>
+    <h1>League Table</h1>
+    <script>
+      function drawTableFunction(data) {
+        console.log("in draw table", data);
+        var txt = "";
+        txt += "<table border='1'>";
+        for (x in data.contestants) {
+          console.log(data.contestants);
+          txt +=
+            "<tr><td>" +
+            data.contestants[x].name +
+            "</td><td>" +
+            data.contestants[x].wins +
+            "</td><td>" +
+            data.contestants[x].draws +
+            "</td><td>" +
+            data.contestants[x].losses +
+            "</td></tr>";
+        }
+        txt += "</table>";
+        document.getElementById("fightTable").innerHTML = txt;
+      }
+
+      function getTableFunction() {
+        fetch("/gettable")
+          .then((response) => response.json())
+          .then((data) => drawTableFunction(data));
+      }
+    </script>
+    <div style="text-align: center">
+      <input
+        id="getTable"
+        type="button"
+        value="Get Table"
+        onclick="getTableFunction();"
+      />
+    </div>
+    <div class="table">
+      <p id="fightTable"></p>
+    </div>
+  </body>
+</html>
+{% endblock %}
