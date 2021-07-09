@@ -7,6 +7,13 @@ from flask import Response
 from flask_restful import Api
 import json
 from flask import Flask, request, render_template, redirect, url_for
+import smtplib
+import os
+from decouple import config
+
+API_EMAIL = config('EMAIL')
+API_PASSWORD = config('PASSWORD')
+
 
 subscribers = []
 
@@ -46,14 +53,22 @@ def form():
     first_name = request.form.get("first_name")
     last_name = request.form.get("last_name")
     email_name = request.form.get("email_name")
+
+    message = (f'Thank you {first_name} for subscribing to our newsletter!')
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
+    server.login(API_EMAIL, API_PASSWORD)
+    server.sendmail(API_EMAIL, email_name, message)
+
     if not first_name or not last_name or not email_name:
         error_statement = "All forms fields required..."
-        return render_template("fail.html", error_statement=error_statement, first_name=first_name,
+        return render_template("subscribe.html", error_statement=error_statement,
+                               first_name=first_name,
                                last_name=last_name,
                                email_name=email_name)
 
     subscribers.append(f'{first_name} {last_name} | {email_name}')
-    message = (f'Thank you {first_name} for subscribing')
+
     return render_template('form.html', subscribers=subscribers, message=message)
 
 
