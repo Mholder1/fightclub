@@ -85,7 +85,7 @@ def addfight():
     matchup = fight_data['matchup']
     winner = fight_data['winner']
     if winner not in [name, matchup]:
-        return Response("Winner must be either name or opponent.", 400, mimetype="text/plain")
+        return Response(json.dumps({"error": "Winner must be either name or opponent."}), 400, mimetype="text/plain")
     get_data = fightclub.amend_table(
         name.capitalize(), matchup.capitalize(), winner.capitalize())
     return Response(json.dumps(get_data), 200, mimetype='application/json')
