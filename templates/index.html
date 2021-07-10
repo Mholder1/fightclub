@@ -49,19 +49,21 @@
 
           body: newValue, // body data type must match "Content-Type" header
         })
+        
+        .then(function(response) {
+          if (response.status === 400) {
+            return response.json()
+          }
+        })
+          .then(function(object) {
+            var txt = ""
+            txt += "Error, " + object.error
+            document.getElementById("errorbox").innerHTML = txt;
+          })
+
         .catch((error) => {
-          console.error("Error returned from post:", error);
+          alert("Error returned from post:", error);
         });
-        data = response.json()
-        if (response.status === 404) {
-          alert(data)
-          txt += "Error, " + data
-          document.getElementById("errorbox").innerHTML = txt;
-        }
-        else {
-          drawTableFunction(data);
-          console.log("Success:", data);
-        }
     }
 
       function getTableFunction() {
