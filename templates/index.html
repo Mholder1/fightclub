@@ -49,15 +49,20 @@
 
           body: newValue, // body data type must match "Content-Type" header
         })
-          .then((response) => response.json())
-          .then((data) => {
-            drawTableFunction(data);
-            console.log("Success:", data);
-          })
-          .catch((error) => {
-            console.error("Error returned from post:", error);
-          });
-      }
+        .catch((error) => {
+          console.error("Error returned from post:", error);
+        });
+        data = response.json()
+        if (response.status === 404) {
+          alert(data)
+          txt += "Error, " + data
+          document.getElementById("errorbox").innerHTML = txt;
+        }
+        else {
+          drawTableFunction(data);
+          console.log("Success:", data);
+        }
+    }
 
       function getTableFunction() {
         fetch("/gettable")
@@ -101,6 +106,8 @@
       />
 
       <p id="fightTable"></p>
+
+      <p id="errorbox"></p>
 
   </body>
 </html>
