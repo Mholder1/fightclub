@@ -9,11 +9,6 @@ import json
 from flask import Flask, request, render_template, redirect, url_for
 import smtplib
 import os
-from decouple import config
-
-API_EMAIL = config('EMAIL')
-API_PASSWORD = config('PASSWORD')
-
 
 subscribers = []
 
@@ -54,12 +49,6 @@ def form():
     last_name = request.form.get("last_name")
     email_name = request.form.get("email_name")
 
-    message = (f'Thank you {first_name} for subscribing to our newsletter!')
-    server = smtplib.SMTP("smtp.gmail.com", 587)
-    server.starttls()
-    server.login(API_EMAIL, API_PASSWORD)
-    server.sendmail(API_EMAIL, email_name, message)
-
     if not first_name or not last_name or not email_name:
         error_statement = "All forms fields required..."
         return render_template("subscribe.html", error_statement=error_statement,
@@ -69,7 +58,7 @@ def form():
 
     subscribers.append(f'{first_name} {last_name} | {email_name}')
 
-    return render_template('form.html', subscribers=subscribers, message=message)
+    return render_template('form.html', subscribers=subscribers)
 
 
 def post_params_okay(mandatory_fields, req_data):
@@ -92,8 +81,13 @@ def addfight():
         return Response("Data is not json", 400, mimetype="text/plain")
     if not post_params_okay(("name", "winner", "matchup"), fight_data):
         return Response("Missing field data, must supply name, winner and matchup", 400, mimetype="text/plain")
+    name = fight_data['name']
+    matchup = fight_data['matchup']
+    winner = fight_data['winner']
+    if winner not in [name, matchup]:
+        return Response("Winner must be either name or opponent.", 400, mimetype="text/plain")
     get_data = fightclub.amend_table(
-        fight_data['name'], fight_data['matchup'], fight_data['winner'])
+        name.capitalize(), matchup.capitalize(), winner.capitalize())
     return Response(json.dumps(get_data), 200, mimetype='application/json')
 
 

@@ -40,7 +40,7 @@ def findOpponent(matchup):
 def addNew(name):
     HousematesL = read_table()
     HousematesL['contestants'].append({
-        "name": name,
+        "name": name.capitalize(),
         "wins": 0,
         "draws": 0,
         "losses": 0,
@@ -53,7 +53,7 @@ def addNew(name):
 def AddOpponent(matchup):
     HousematesL = read_table()
     HousematesL['contestants'].append({
-        "name": matchup,
+        "name": matchup.capitalize(),
         "wins": 0,
         "draws": 0,
         "losses": 0,
@@ -66,14 +66,15 @@ def AddOpponent(matchup):
 def amend_table(name, matchup, winner):
 
     HousematesL = read_table()
+    name = name.capitalize()
+    matchup = matchup.capitalize()
+    winner = winner.capitalize()
 
-    for person in HousematesL['contestants']:
-        if not findPlayer(name):
-            addNew(name)
+    if not findPlayer(name):
+        addNew(name)
 
-    for person in HousematesL['contestants']:
-        if not findOpponent(matchup):
-            AddOpponent(matchup)
+    if not findOpponent(matchup):
+        AddOpponent(matchup)
 
     Housemates = read_table()
 
