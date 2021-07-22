@@ -4,6 +4,11 @@
   <body>
     <h1>Fight Club</h1>
     <script>
+      const Home = () => {
+        const [error, setError] = useState(null)
+      }
+  
+
       function drawTableFunction(data) {
         console.log("in draw table", data);
         var txt = "";
@@ -48,21 +53,17 @@
           },
 
           body: newValue, // body data type must match "Content-Type" header
-        })
-        
+        })   
         .then(function(response) {
-          if (response.status === 400) {
-            return response.json()
-          }
+          if (response.ok) return response.json();
+          return response.json()
+          .then(response => {throw new Error(response.error)})
         })
-          .then(function(object) {
-            var txt = ""
-            txt += "Error, " + object.error
-            document.getElementById("errorbox").innerHTML = txt;
-          })
-
+        .then(data => {
+          drawTableFunction(data)
+        })
         .catch((error) => {
-          alert("Error returned from post:", error);
+          document.getElementById("errorbox").innerHTML = error.message
         });
     }
 
