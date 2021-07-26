@@ -4,11 +4,7 @@
   <body>
     <h1>Fight Club</h1>
     <script>
-      const Home = () => {
-        const [error, setError] = useState(null)
-      }
   
-
       function drawTableFunction(data) {
         console.log("in draw table", data);
         var txt = "";
@@ -64,6 +60,7 @@
         })
         .catch((error) => {
           document.getElementById("errorbox").innerHTML = error.message
+
         });
     }
 
@@ -84,34 +81,32 @@
       </form>
     </div>
 
-    <form id="addfight_form" name="addfight_form" style="text-align: center">
-      <label for="name">Name:</label><br />
-      <input type="text" name="name" /><br />
-      <label for="matchup">Opponent:</label><br />
-      <input type="text" name="matchup" /><br />
-      <label for="winner">Winner:</label><br />
-      <input type="text" name="winner" /><br /><br />
+    <form id="addfight_form" name="addfight_form" class="addform" style="text-align: center">
+      <p class="formlabel">Enter the two opponents and the victor to update our fight table</p><br>
+      <input type="text" name="name" placeholder="Name" /><br />
+      <input type="text" name="matchup" placeholder="Opponent" /><br />
+      <input type="text" name="winner" placeholder="Who won?"/><br /><br />
       <button type="addfight">Add Fight</button>
-    </form>
+      <div id="errorbox" class="errorbox"></div>
+    </form>  
     <br /><br />
+    
 
     <script>
       const form = document.querySelector("#addfight_form");
       form.addEventListener("submit", postData);
     </script>
 
-    <div style="text-align: center">
+    <div style="text-align: center;">
       <input
         id="getTable"
         type="button"
         value="Get Table"
         onclick="getTableFunction();"
       />
+    </div>
 
-      <p id="fightTable"></p>
-
-      <p id="errorbox"></p>
-
+    <p id="fightTable" class="fightTable"></p>
   </body>
 </html>
 {% endblock %}
