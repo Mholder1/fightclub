@@ -82,10 +82,20 @@ h1 {
 
 .table {
   text-align: center;
+  margin-left: 865px;
+  margin-right: 855px;
+  color: #f0caca;
+  background-color: black;
 }
 
 p.fightTable {
   text-align: center;
-  width: 50%;
-  margin-left: 860px;
+  margin-left: 865px;
+  margin-right: 855px;
+  color: #f0caca;
+  background-color: black;
+}
+
+body {
+  background-color: #db9696;
 }

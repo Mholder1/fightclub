@@ -2,9 +2,9 @@
   "contestants": [
     {
       "name": "Marcus",
-      "wins": 13,
+      "wins": 14,
       "draws": 0,
-      "losses": 4
+      "losses": 5
     },
     {
       "name": "Alex",
@@ -17,6 +17,18 @@
       "wins": 1,
       "draws": 0,
       "losses": 0
+    },
+    {
+      "name": "Jerry",
+      "wins": 1,
+      "draws": 0,
+      "losses": 0
+    },
+    {
+      "name": "Cheese",
+      "wins": 0,
+      "draws": 0,
+      "losses": 1
     }
   ]
 }

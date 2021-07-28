@@ -1,14 +1,14 @@
-import psycopg2
 import fightclub
-import fightclub_db
 import logging
 from flask_cors import CORS, cross_origin
 from flask import Response
 from flask_restful import Api
 import json
 from flask import Flask, request, render_template, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
 import smtplib
 import os
+from datetime import datetime
 
 subscribers = []
 
@@ -16,6 +16,17 @@ app = Flask(__name__)
 api = Api(app)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fighters.db'
+#Initialize the database
+db = SQLAlchemy(app)
+#Create db model
+class Fighters(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+#Create a function to return a string when we add something
+    def __repr__(self):
+        return '<Name %r>' % self.id
 
 
 @app.route('/')
@@ -86,10 +97,8 @@ def addfight():
     winner = fight_data['winner']
     if winner not in [name, matchup]:
         return Response(json.dumps({"error": "Winner must be either name or opponent."}), 400, mimetype="text/plain")
-    if not name:
-        return Response(json.dumps({"error": "You have not entered a name"}), 400, mimetype="text/plain")
-    if not matchup:
-        return Response(json.dumps({"error": "You have not entered an opponent"}), 400, mimetype="text/plain")
+    if not name or not matchup:
+        return Response(json.dumps({"error": "You have not entered a name or an opponent"}), 400, mimetype="text/plain")
     get_data = fightclub.amend_table(
         name.capitalize(), matchup.capitalize(), winner.capitalize())
     return Response(json.dumps(get_data), 200, mimetype='application/json')
