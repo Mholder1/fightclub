@@ -17,14 +17,17 @@ api = Api(app)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fighters.db'
-#Initialize the database
+# Initialize the database
 db = SQLAlchemy(app)
-#Create db model
+# Create db model
+
+
 class Fighters(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
-#Create a function to return a string when we add something
+# Create a function to return a string when we add something
+
     def __repr__(self):
         return '<Name %r>' % self.id
 
