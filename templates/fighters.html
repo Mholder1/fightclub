@@ -1,0 +1,15 @@
+{% extends 'newpage.html' %} {% block title %}{{ title }}{% endblock title %}
+{%block content %}
+<body>
+  <h1>Our Fighters</h1>
+  <div style="text-align: center">
+    <form action="/fighters" method="POST">
+      <input type="text" name="name" placeholder="Name" />
+      <input type="submit" value="Add Name" />
+    </form>
+  </div>
+</body>
+<br /><br />
+{% for fighter in fighters %}
+<h4>{{ fighter.name }} <a href="/update" type="submit">update</a></h4>
+{% endfor %} {% endblock %}

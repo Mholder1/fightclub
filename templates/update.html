@@ -1,0 +1,15 @@
+{% extends 'newpage.html' %} {% block title %}Update name{% endblock title %}
+{%block content %}
+<h1>Update name...</h1>
+<div style="text-align: center">
+  <form action="/update/{{fighter_to_update.id}}" method="POST">
+    <input
+      type="text"
+      name="name"
+      placeholder="Name"
+      value="{{fighter_to_update.name}}"
+    />
+    <input type="submit" value="Add Name" />
+  </form>
+</div>
+{% endblock %}
