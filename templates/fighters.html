@@ -11,5 +11,10 @@
 </body>
 <br /><br />
 {% for fighter in fighters %}
-<h4>{{ fighter.name }} <a href="/update" type="submit">update</a></h4>
+<h4>
+  {{ fighter.name }}
+  <form action="/update/{{fighter.id}}">
+    <button type="submit">Update</button>
+  </form>
+</h4>
 {% endfor %} {% endblock %}
