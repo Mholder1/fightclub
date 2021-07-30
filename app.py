@@ -37,59 +37,6 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/update/<int:id>', methods=['POST', 'GET'])
-def update(id):
-    fighter_to_update = Fighters.query.get_or_404(id)
-    if request.method == "POST":
-        fighter_to_update.name = request.form['name']
-        try:
-            db.session.commit()
-            return redirect('/fighters')
-        except:
-            return "There was a problem updating your name"
-    else:
-        return render_template('update.html', fighter_to_update=fighter_to_update)
-    
-
-
-@app.route('/fighters', methods=['POST', 'GET'])
-def fighters():
-    title = "Here are our fighters"
-
-    if request.method == "POST":
-        fighter_name = request.form['name']
-        new_fighter = Fighters(name=fighter_name)
-        #Push to Database
-        try:
-            db.session.add(new_fighter)
-            db.session.commit()
-            return redirect('/fighters')
-        except:
-            return "There was an error adding your fighter"
-    else:
-        fighters = Fighters.query.order_by(Fighters.date_created)
-        return render_template('fighters.html', fighters=fighters, title=title)
-
-@app.route('/signup')
-def signup():
-    return render_template('signup.html')
-
-
-@app.route('/leaguetable')
-def leaguetable():
-    return render_template('leaguetable.html')
-
-
-@app.route('/logins')
-def logins():
-    return render_template('logins.html')
-
-
-@app.route('/subscribe')
-def subscribe():
-    return render_template('subscribe.html')
-
-
 @app.route('/form', methods=['POST'])
 def form():
     first_name = request.form.get("first_name")
@@ -155,6 +102,59 @@ def enable_logging():
     logger.setLevel(logging.DEBUG)
     logging.basicConfig(level=logging.INFO,
                         datefmt=log_datefmt, format=log_format)
+
+
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
+
+
+@app.route('/leaguetable')
+def leaguetable():
+    return render_template('leaguetable.html')
+
+
+@app.route('/logins')
+def logins():
+    return render_template('logins.html')
+
+
+@app.route('/subscribe')
+def subscribe():
+    return render_template('subscribe.html')
+
+
+@app.route('/fighters', methods=['POST', 'GET'])
+def fighters():
+    title = "Here are our fighters"
+
+    if request.method == "POST":
+        fighter_name = request.form['name']
+        new_fighter = Fighters(name=fighter_name)
+        #Push to Database
+        try:
+            db.session.add(new_fighter)
+            db.session.commit()
+            return redirect('/fighters')
+        except:
+            return "There was an error adding your fighter"
+    else:
+        fighters = Fighters.query.order_by(Fighters.date_created)
+        return render_template('fighters.html', fighters=fighters, title=title)
+
+@app.route('/update/<int:id>', methods=['POST', 'GET'])
+def update(id):
+    fighter_to_update = Fighters.query.get_or_404(id)
+    if request.method == "POST":
+        fighter_to_update.name = request.form['name']
+        try:
+            db.session.commit()
+            return redirect('/fighters')
+        except:
+            return "There was a problem updating your name"
+    else:
+        return render_template('update.html', fighter_to_update=fighter_to_update)
+
 
 
 if __name__ == '__main__':
