@@ -145,6 +145,7 @@ def fighters():
 @app.route('/update/<int:id>', methods=['POST', 'GET'])
 def update(id):
     fighter_to_update = Fighters.query.get_or_404(id)
+
     if request.method == "POST":
         fighter_to_update.name = request.form['name']
         try:
@@ -155,7 +156,16 @@ def update(id):
     else:
         return render_template('update.html', fighter_to_update=fighter_to_update)
 
+@app.route('/delete/<int:id>')
+def delete(id):
+    fighter_to_delete = Fighters.query.get_or_404(id)
 
+    try:
+        db.session.delete(fighter_to_delete)
+        db.session.commit()
+        return redirect('/fighters')
+    except:
+        return "There was a problem deleting fighter"
 
 if __name__ == '__main__':
     enable_logging()
