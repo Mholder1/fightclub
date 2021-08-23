@@ -4,20 +4,23 @@
   <h1>Our Fighters</h1>
   <div style="text-align: center">
     <form action="/fighters" method="POST">
-      <input type="text" name="name" placeholder="Name" />
+      <input type="text" name="name" placeholder="Name" /><br />
+      <input type="text" name="email" placeholder="Email" /><br />
+      <input type="text" name="location" placeholder="Location" /><br />
       <input type="submit" value="Add Name" />
     </form>
   </div>
 </body>
 <br /><br />
-{% for fighter in fighters %}
+{% for fight in fighters %}
 <h4>
-  {{ fighter.name }}
+  <p>Name: {{ fight.name }}</p>
+  <p>Location: {{fight.location}}</p>
   <div>
-    <form action="/update/{{fighter.id}}">
+    <form action="/update/{{fight.id}}">
       <button type="submit">Update</button>
     </form>
-    <form action="/delete/{{fighter.id}}">
+    <form action="/delete/{{fight.id}}">
       <button type="submit">Delete</button>
     </form>
   </div>

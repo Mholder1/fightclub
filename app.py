@@ -1,3 +1,4 @@
+from sqlalchemy.orm import backref
 import fightclub
 import logging
 from flask_cors import CORS, cross_origin
@@ -9,6 +10,9 @@ from flask_sqlalchemy import SQLAlchemy
 import smtplib
 import os
 from datetime import datetime
+from wtforms import SelectField
+from flask_wtf import FlaskForm
+
 
 subscribers = []
 
@@ -16,20 +20,92 @@ app = Flask(__name__)
 api = Api(app)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fighters.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fights.db'
 # Initialize the database
 db = SQLAlchemy(app)
 # Create db model
 
+class Fights(db.Model):
 
-class Fighters(db.Model):
+    __tablename__ = 'fighters'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), unique=True, nullable=False)
+    location = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
-# Create a function to return a string when we add something
 
     def __repr__(self):
         return '<Name %r>' % self.id
+
+class Table(db.Model):
+
+    __tablename__ = 'table'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    wins = db.Column(db.Integer)
+    draws = db.Column(db.Integer)
+    losses = db.Column(db.Integer)
+
+class Form(FlaskForm):
+    first_opponent = SelectField('Select fighter', choices = [])
+    second_opponent = SelectField('Select opponent', choices=[])
+    victor = SelectField('Select winner', choices=[])
+
+@app.route('/fighters', methods=['POST', 'GET'])
+def fighters():
+    title = "Here are our fighters"
+
+    if request.method == "POST":
+        fighter_name = request.form['name']
+        fighter_email = request.form['email']
+        fighter_loc = request.form['location']
+        
+        new_fighter = Fights(name=fighter_name, email=fighter_email, location=fighter_loc)
+        new_table = Table(name=fighter_name, wins=0, draws=0, losses=0)
+
+        #Push to Database
+        try:
+            db.session.add(new_fighter)
+            db.session.add(new_table)
+            db.session.commit()
+            return redirect('/fighters')
+        except:
+            return "There was an error adding your fighter"
+    else:
+        fighters = Fights.query.order_by(Fights.date_created)
+        return render_template('fighters.html', fighters=fighters, title=title)
+
+
+@app.route('/update/<int:id>', methods=['POST', 'GET'])
+def update(id):
+    fighter_to_update = Fights.query.get_or_404(id)
+    table_to_update = Table.query.get_or_404(id)
+
+    if request.method == "POST":
+        fighter_to_update.name = request.form['name']
+        table_to_update.name = request.form['name']
+        try:
+            db.session.commit()
+            return redirect('/fighters')
+        except:
+            return "There was a problem updating your name"
+    else:
+        return render_template('update.html', fighter_to_update=fighter_to_update)
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    fighter_to_delete = Fights.query.get_or_404(id)
+    table_to_delete = Table.query.get_or_404(id)
+
+    try:
+        db.session.delete(fighter_to_delete)
+        db.session.delete(table_to_delete)
+        db.session.commit()
+        return redirect('/fighters')
+    except:
+        return "There was a problem deleting fighter"
 
 
 @app.route('/')
@@ -123,49 +199,13 @@ def logins():
 def subscribe():
     return render_template('subscribe.html')
 
+@app.route('/addnew', methods=['GET', 'POST'])
+def addnew():
+    title = "Add New"
 
-@app.route('/fighters', methods=['POST', 'GET'])
-def fighters():
-    title = "Here are our fighters"
-
-    if request.method == "POST":
-        fighter_name = request.form['name']
-        new_fighter = Fighters(name=fighter_name)
-        #Push to Database
-        try:
-            db.session.add(new_fighter)
-            db.session.commit()
-            return redirect('/fighters')
-        except:
-            return "There was an error adding your fighter"
-    else:
-        fighters = Fighters.query.order_by(Fighters.date_created)
-        return render_template('fighters.html', fighters=fighters, title=title)
-
-@app.route('/update/<int:id>', methods=['POST', 'GET'])
-def update(id):
-    fighter_to_update = Fighters.query.get_or_404(id)
-
-    if request.method == "POST":
-        fighter_to_update.name = request.form['name']
-        try:
-            db.session.commit()
-            return redirect('/fighters')
-        except:
-            return "There was a problem updating your name"
-    else:
-        return render_template('update.html', fighter_to_update=fighter_to_update)
-
-@app.route('/delete/<int:id>')
-def delete(id):
-    fighter_to_delete = Fighters.query.get_or_404(id)
-
-    try:
-        db.session.delete(fighter_to_delete)
-        db.session.commit()
-        return redirect('/fighters')
-    except:
-        return "There was a problem deleting fighter"
+    #form = Form()
+    #form.first_opponent.choices = 
+    return render_template('addnew.html', title=title)
 
 if __name__ == '__main__':
     enable_logging()
