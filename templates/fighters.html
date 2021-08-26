@@ -15,6 +15,7 @@
 {% for fight in fighters %}
 <h4>
   <p>Name: {{ fight.name }}</p>
+  <p>Email: {{ fight.email }}</p>
   <p>Location: {{fight.location}}</p>
   <div>
     <form action="/update/{{fight.id}}">

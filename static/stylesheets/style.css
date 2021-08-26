@@ -99,3 +99,40 @@ p.fightTable {
 body {
   background-color: #db9696;
 }
+
+div.db-error {
+  font-family: sans-serif;
+  font-style: normal;
+  color: #ac1616;
+  font-size: 15px;
+  padding: 10px;
+  margin: 10px;
+  color: #ba3939;
+  background: #f0caca;
+  border: 1px solid #a33a3a;
+  position: relative;
+}
+
+.dropdown {
+  font-family: sans-serif;
+}
+
+.dropdown h2 {
+  color: dodgerblue;
+}
+
+.form-group {
+  position: relative;
+  font-family: Arial;
+}
+.form-group select {
+  background-color: dodgerblue;
+  width: 12%;
+  border-radius: 2px;
+  margin: 5px;
+  padding: 5px;
+}
+.db_input {
+  background-color: dodgerblue;
+  text-align: right;
+}

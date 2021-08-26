@@ -2,72 +2,97 @@
 
 
 {%block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Python Flask Dynamic Select Box using Flask-WTF, javascript and SQLAlchemy</title>
- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-</head>
+
 <body>
-<div class="container">
- <div class="row">
-        <div class="col-md-12">
-        <p><h2>Python Flask Dynamic Select Box using Flask-WTF, javascript and SQLAlchemy</h2></p>
-        <form method="POST">
-          {{ form.csrf_token}}  
-      <div class="form-group">
-    <label for="email">Country:</label>
-    {{ form.country(class="form-control") }}
-   </div>
-   <div class="form-group">
-    <label for="email">State:</label>
-    {{ form.state(class="form-control")}}
-   </div>
-   <div class="form-group">
-    <label for="email">City:</label>
-    {{ form.city(class="form-control")}} 
-   </div>
-    <input type="submit" class="btn btn-success" btn-lg>
-  </form> 
-        </div>
- </div>
-</div> 
-<script>
-country_select = document.getElementById('country');
-state_select = document.getElementById('state');
-city_select = document.getElementById('city');
- 
-country_select.onchange = function(){
- country = country_select.value;
- <!-- alert(country); --> 
- fetch('state/' + country).then(function(response){
-  response.json().then(function(data) {
-   optionHTML = '';
-   for (state of data.statecountry) {
-    optionHTML += '<option value="' + state.id +'">' + state.name + '</option>'
-   }
-   state_select.innerHTML = optionHTML;
-  });
- });
-}
-state_select.onchange = function(){
- city = state_select.value; 
- fetch('city/' + city).then(function(response){
-  response.json().then(function(data) {
-   optionHTML = '';
-   for (city_rs of data.citylist) {
-    optionHTML += '<option value="' + city_rs.id +'">' + city_rs.name + '</option>'
-   }
-   city_select.innerHTML = optionHTML;
-  });
- });
-}
-</script>
+    
+
+    
+        <form class="dropdown" method="POST">
+            <p><h2>Add Fight</h2></p>
+            {{ form.csrf_token}}  
+
+            <div id="form-group" class="form-group">
+                <label for="fighting">Name:</label>
+                    {{ form.first_opponent }}
+            </div>
+
+            <div class="form-group">
+                <label for="fighting">Opponent:</label>
+                    {{ form.second_opponent}}
+            </div>
+
+            <div class="form-group">
+                <label for="fighting">Winner:</label>
+                    {{ form.victor}} 
+            </div>
+            <br>
+            <input class="db_input" type="submit">
+
+        </form> 
+
+  {%if db_error %}
+  <div class="db-error" id="db-error"> {{db_error}}</div>
+  {% endif %}
+  {%if error_db %}
+  <div class="db-error" id="db-error"> {{error_db}}</div>
+  {% endif %}
+
+  
+    
+
+
+<br><br><br><br><br><br>
+
+
+
+<div>
+    <style>
+        th {
+            width: 150px;
+            text-align: center;
+            border: 1px solid black;
+            padding: 5px;
+            background-color: dodgerblue;
+        }
+        td {
+            width: 150px;
+            text-align: center;
+            border: 1px solid black;
+            padding: 5px;
+            background-color: floralwhite;
+            color: rgb(148, 16, 16);
+            font-weight: bold;
+        }
+    </style>
+   
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Wins</th>
+            <th>Draws</th>
+            <th>Lossses</th>
+        </tr> 
+        </thead>
+        <tbody>
+            {% for name in tables %}
+            <tr>
+            <td>{{name.name}}</td>
+            
+            <td>{{name.wins}}</td>
+           
+            
+            <td>{{name.draws}}</td>
+            
+           
+            <td>{{name.losses}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+       
+    </table>
+  </div>
+
 </body>
 </html>
  {% endblock %}

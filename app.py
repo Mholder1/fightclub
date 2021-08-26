@@ -21,6 +21,7 @@ api = Api(app)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fights.db'
+app.config['SECRET_KEY'] = 'cairocoders-ednalan'
 # Initialize the database
 db = SQLAlchemy(app)
 # Create db model
@@ -48,10 +49,6 @@ class Table(db.Model):
     draws = db.Column(db.Integer)
     losses = db.Column(db.Integer)
 
-class Form(FlaskForm):
-    first_opponent = SelectField('Select fighter', choices = [])
-    second_opponent = SelectField('Select opponent', choices=[])
-    victor = SelectField('Select winner', choices=[])
 
 @app.route('/fighters', methods=['POST', 'GET'])
 def fighters():
@@ -76,6 +73,8 @@ def fighters():
     else:
         fighters = Fights.query.order_by(Fights.date_created)
         return render_template('fighters.html', fighters=fighters, title=title)
+    
+    
 
 
 @app.route('/update/<int:id>', methods=['POST', 'GET'])
@@ -162,7 +161,6 @@ def addfight():
         name.capitalize(), matchup.capitalize(), winner.capitalize())
     return Response(json.dumps(get_data), 200, mimetype='application/json')
 
-
 @app.route('/gettable')
 def gettable():
     table = fightclub.read_table()
@@ -199,13 +197,45 @@ def logins():
 def subscribe():
     return render_template('subscribe.html')
 
+
+class Form(FlaskForm):
+    first_opponent = SelectField('Select fighter', choices = [])
+    second_opponent = SelectField('Select opponent', choices=[])
+    victor = SelectField('Select winner', choices=[])
+
 @app.route('/addnew', methods=['GET', 'POST'])
 def addnew():
     title = "Add New"
 
-    #form = Form()
-    #form.first_opponent.choices = 
-    return render_template('addnew.html', title=title)
+    tables = Table.query.order_by(Table.wins.desc())
+    
+    form = Form()
+    form.first_opponent.choices = [(Table.id, Table.name) for Table in Table.query.all()]
+    form.second_opponent.choices = [(Table.id, Table.name) for Table in Table.query.all()]
+    form.victor.choices = [(Table.id, Table.name) for Table in Table.query.all()]
+
+    if request.method == 'POST':
+        PlayerOne = Table.query.filter_by(id=form.first_opponent.data).first()
+        PlayerTwo = Table.query.filter_by(id=form.second_opponent.data).first()
+        Victor = Table.query.filter_by(id=form.victor.data).first()
+        Victor.wins = Victor.wins + 1
+        if PlayerOne == PlayerTwo:
+            db_error = "You cannot fight yourself"
+            return render_template('addnew.html', db_error=db_error, title=title, form=form, tables=tables)
+        if Victor != PlayerOne:
+            if Victor != PlayerTwo:
+                error_db = "Victor must be one of the fighters"
+                return render_template('addnew.html', error_db=error_db, title=title, form=form, tables=tables)
+            else:
+                db.session.commit()
+        if Victor == PlayerOne:
+            PlayerTwo.losses = PlayerTwo.losses + 1
+        else:
+            PlayerOne.losses = PlayerOne.losses + 1
+        db.session.commit()
+        return redirect('/addnew')
+    
+    return render_template('addnew.html', title=title, form=form, tables=tables)
 
 if __name__ == '__main__':
     enable_logging()
