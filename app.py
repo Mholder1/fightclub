@@ -233,7 +233,8 @@ def addnew():
         else:
             PlayerOne.losses = PlayerOne.losses + 1
         db.session.commit()
-        return redirect('/addnew')
+        victory_statement = "Thank you. Your contest has been recorded"
+        return render_template('addnew.html', victory_statement=victory_statement, title=title, form=form, tables=tables)
     
     return render_template('addnew.html', title=title, form=form, tables=tables)
 

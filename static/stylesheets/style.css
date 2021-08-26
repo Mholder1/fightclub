@@ -103,14 +103,29 @@ body {
 div.db-error {
   font-family: sans-serif;
   font-style: normal;
-  color: #ac1616;
+  color: #f70707;
   font-size: 15px;
   padding: 10px;
   margin: 10px;
-  color: #ba3939;
+  color: #b90817;
   background: #f0caca;
   border: 1px solid #a33a3a;
-  position: relative;
+  position: absolute;
+  border-radius: 5px;
+}
+
+div.victory_statement {
+  font-family: sans-serif;
+  font-style: normal;
+  color: #07f727;
+  font-size: 15px;
+  padding: 10px;
+  margin: 10px;
+  color: #08b920;
+  background: #caf0cf;
+  border: 1px solid #46a33a;
+  position: absolute;
+  border-radius: 5px;
 }
 
 .dropdown {
@@ -118,21 +133,26 @@ div.db-error {
 }
 
 .dropdown h2 {
-  color: dodgerblue;
+  color: rgb(145, 3, 3);
 }
 
 .form-group {
   position: relative;
   font-family: Arial;
+  font-weight: bold;
 }
 .form-group select {
-  background-color: dodgerblue;
+  background-color: rgb(143, 33, 6);
   width: 12%;
   border-radius: 2px;
   margin: 5px;
   padding: 5px;
+  color: white;
+  font-family: sans-serif;
 }
 .db_input {
-  background-color: dodgerblue;
+  background-color: rgb(155, 22, 4);
   text-align: right;
+  color: white;
+  font-family: sans-serif;
 }
