@@ -14,6 +14,7 @@ from wtforms import SelectField
 from flask_wtf import FlaskForm
 
 
+
 subscribers = []
 
 app = Flask(__name__)
@@ -49,15 +50,16 @@ class Table(db.Model):
     draws = db.Column(db.Integer)
     losses = db.Column(db.Integer)
 
-
 @app.route('/fighters', methods=['POST', 'GET'])
 def fighters():
     title = "Here are our fighters"
+
 
     if request.method == "POST":
         fighter_name = request.form['name']
         fighter_email = request.form['email']
         fighter_loc = request.form['location']
+
         
         new_fighter = Fights(name=fighter_name, email=fighter_email, location=fighter_loc)
         new_table = Table(name=fighter_name, wins=0, draws=0, losses=0)

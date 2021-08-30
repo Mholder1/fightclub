@@ -12,16 +12,16 @@
   </div>
 </body>
 <br /><br />
-{% for fight in fighters %}
+{% for fighter in fighters %}
 <h4>
-  <p>Name: {{ fight.name }}</p>
-  <p>Email: {{ fight.email }}</p>
-  <p>Location: {{fight.location}}</p>
+  <p>Name: {{ fighter.name }}</p>
+  <p>Email: {{ fighter.email }}</p>
+  <p>Location: {{ fighter.location }}</p>
   <div>
-    <form action="/update/{{fight.id}}">
+    <form action="/update/{{fighter.id}}">
       <button type="submit">Update</button>
     </form>
-    <form action="/delete/{{fight.id}}">
+    <form action="/delete/{{fighter.id}}">
       <button type="submit">Delete</button>
     </form>
   </div>
