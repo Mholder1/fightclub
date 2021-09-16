@@ -1,0 +1,10 @@
+{% extends 'newpage.html' %} {% block title %} Fightclub - Home {% endblock
+title %} {% block content %}
+
+<body>
+  <form action="/upload" enctype="multipart/form-data" method="POST">
+    <input type="file" name="pic" />
+    <input type="submit" value="upload file" />
+  </form>
+</body>
+{% endblock %}

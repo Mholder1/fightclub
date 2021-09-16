@@ -156,3 +156,89 @@ div.victory_statement {
   color: white;
   font-family: sans-serif;
 }
+img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 95%;
+}
+
+.panel {
+  margin: 10px;
+  background-color: #5e1705;
+  color: white;
+  font-weight: bold;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.dogtag {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: 10px;
+  background-color: #5e1705;
+  border: 2px solid white;
+}
+
+.panel {
+  border: 1px solid white;
+  margin: 10px;
+}
+.dogtag p {
+  color: white;
+  font-weight: bold;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  margin: 20px 20px;
+  height: 20px;
+  margin-bottom: 20px;
+}
+
+.dogtag_buttons button {
+  background-color: #a31609;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+}
+.dogtag_buttons {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.success {
+  font-family: sans-serif;
+  font-style: normal;
+  color: #07f727;
+  font-size: 15px;
+  padding: 10px;
+  margin: 10px;
+  color: #08b920;
+  background: #caf0cf;
+  border: 1px solid #46a33a;
+  position: absolute;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.success:empty {
+  display: none;
+}
+
+.error {
+  font-family: sans-serif;
+  font-style: normal;
+  color: #ac1616;
+  font-size: 15px;
+  padding: 10px;
+  margin: 10px;
+  color: #ba3939;
+  background: #f0caca;
+  border: 1px solid #a33a3a;
+  position: relative;
+}
+
+.error:empty {
+  display: none;
+}

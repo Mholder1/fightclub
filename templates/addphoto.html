@@ -1,0 +1,15 @@
+{% extends 'newpage.html' %} {% block title %}Update photo{% endblock title %}
+{%block content %}
+<h1>Update profile picture...</h1>
+<div style="text-align: center">
+  <form action="/addphoto/{{photo_to_update.id}}" method="POST">
+    <input
+      type="file"
+      name="file"
+      placeholder="Add photo"
+      value="{{photo_to_update.img}}"
+    />
+    <input type="submit" value="Add Photo" />
+  </form>
+</div>
+{% endblock %}

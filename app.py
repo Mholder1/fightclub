@@ -5,17 +5,19 @@ from flask_cors import CORS, cross_origin
 from flask import Response
 from flask_restful import Api
 import json
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, Request, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import smtplib
 import os
 from datetime import datetime
 from wtforms import SelectField
 from flask_wtf import FlaskForm
-
+from werkzeug.utils import secure_filename
+import base64
 
 
 subscribers = []
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -35,6 +37,9 @@ class Fights(db.Model):
     name = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), unique=True, nullable=False)
     location = db.Column(db.String(200), nullable=False)
+    img = db.Column(db.Text, unique=True, nullable=False)
+    pic_name = db.Column(db.Text, nullable=False)
+    mimetype = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
@@ -50,34 +55,75 @@ class Table(db.Model):
     draws = db.Column(db.Integer)
     losses = db.Column(db.Integer)
 
+
+
 @app.route('/fighters', methods=['POST', 'GET'])
 def fighters():
     title = "Here are our fighters"
+    
+    #Push to Database
+    try:
+        if request.method == 'POST':
+            pic = request.files['file']
+            fighter_name = request.form['name']
+            fighter_email = request.form['email']
+            fighter_loc = request.form['location']
+          
+            
+            if not fighter_name:
+                name_error= "No name entered"
+            
+            if not fighter_email:
+                email_error = "No email entered"
+            
 
-
-    if request.method == "POST":
-        fighter_name = request.form['name']
-        fighter_email = request.form['email']
-        fighter_loc = request.form['location']
-
+            if not fighter_loc:
+                loc_error= "No location entered"
+                    
+            if not pic:
+                pic_error = "Could not find image"
+            
         
-        new_fighter = Fights(name=fighter_name, email=fighter_email, location=fighter_loc)
-        new_table = Table(name=fighter_name, wins=0, draws=0, losses=0)
+            filename = secure_filename(pic.filename)
+            mimetype = pic.mimetype
+            new_fighter = Fights(name=fighter_name, email=fighter_email, 
+            location=fighter_loc, img=pic.read(), pic_name=filename, mimetype=mimetype)
+            new_table = Table(name=fighter_name, wins=0, draws=0, losses=0)
 
-        #Push to Database
-        try:
             db.session.add(new_fighter)
             db.session.add(new_table)
             db.session.commit()
-            return redirect('/fighters')
-        except:
-            return "There was an error adding your fighter"
+            victory_statement = "Thank you. Your details has been recorded"
+            fighters = Fights.query.order_by(Fights.date_created)
+            return render_template('fighters.html', fighters=fighters, success=victory_statement,
+                pic_error=pic_error, name_error=name_error, email_error=email_error, loc_error=loc_error)
+    except Exception as e:
+        return f"There was an error adding your fighter {e}"
     else:
         fighters = Fights.query.order_by(Fights.date_created)
         return render_template('fighters.html', fighters=fighters, title=title)
-    
-    
 
+@app.route('/viewphoto/<int:id>', methods=['POST', 'GET'])
+def viewphoto(id):
+    user_info = Fights.query.filter_by(id=id).first()
+    image = base64.b64encode(user_info.img).decode('ascii')
+    records = Table.query.filter_by(id=id).first()
+    return render_template('viewphoto.html', image=image, information=user_info, records=records)
+    
+    
+@app.route('/addphoto/<int:id>', methods=['POST', 'GET'])
+def addphoto(id):
+    photo_to_update = Fights.query.get_or_404(id)
+
+    if request.method == "POST":
+        photo_to_update.img = request.form['file']
+        try:
+            db.session.commit()
+            return redirect('/fighters')
+        except:
+            return "There was a problem updating your photo"
+    else:
+        return render_template('addphoto.html', photo_to_update=photo_to_update)
 
 @app.route('/update/<int:id>', methods=['POST', 'GET'])
 def update(id):
@@ -112,24 +158,6 @@ def delete(id):
 @app.route('/')
 def index():
     return render_template('index.html')
-
-
-@app.route('/form', methods=['POST'])
-def form():
-    first_name = request.form.get("first_name")
-    last_name = request.form.get("last_name")
-    email_name = request.form.get("email_name")
-
-    if not first_name or not last_name or not email_name:
-        error_statement = "All forms fields required..."
-        return render_template("subscribe.html", error_statement=error_statement,
-                               first_name=first_name,
-                               last_name=last_name,
-                               email_name=email_name)
-
-    subscribers.append(f'{first_name} {last_name} | {email_name}')
-
-    return render_template('form.html', subscribers=subscribers)
 
 
 def post_params_okay(mandatory_fields, req_data):
@@ -178,26 +206,6 @@ def enable_logging():
     logger.setLevel(logging.DEBUG)
     logging.basicConfig(level=logging.INFO,
                         datefmt=log_datefmt, format=log_format)
-
-
-@app.route('/signup')
-def signup():
-    return render_template('signup.html')
-
-
-@app.route('/leaguetable')
-def leaguetable():
-    return render_template('leaguetable.html')
-
-
-@app.route('/logins')
-def logins():
-    return render_template('logins.html')
-
-
-@app.route('/subscribe')
-def subscribe():
-    return render_template('subscribe.html')
 
 
 class Form(FlaskForm):
