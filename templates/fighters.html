@@ -1,0 +1,38 @@
+{% extends 'newpage.html' %} {% block title %}{{ title }}{% endblock title %}
+{%block content %}
+<body>
+  <h1>Our Fighters</h1>
+  <div style="text-align: center">
+    <form action="/fighters" enctype="multipart/form-data" method="POST">
+      <input type="text" name="name" placeholder="Name" /><br />
+      <input type="text" name="email" placeholder="Email" /><br />
+      <input type="text" name="location" placeholder="Location" /><br />
+      <input type="file" name="file" />
+      <input type="submit" value="Add Name" />
+    </form>
+    <p class="success">{{ success }}</p>
+    <p class="error">{{ pic_error }}</p>
+    <p class="error">{{ name_error }}</p>
+    <p class="error">{{ email_error }}</p>
+    <p class="error">{{ loc_error }}</p>
+  </div>
+</body>
+<br /><br />
+
+{% for fighter in fighters %}
+<h4>
+  <div class="dogtag">
+    <p>{{ fighter.name }}</p>
+  </div>
+
+  <form class="dogtag_buttons" action="/update/{{fighter.id}}">
+    <button type="submit">Update</button>
+  </form>
+  <form class="dogtag_buttons" action="/delete/{{fighter.id}}">
+    <button type="submit">Delete</button>
+  </form>
+  <form class="dogtag_buttons" action="/viewphoto/{{fighter.id}}">
+    <button type="submit">View user</button>
+  </form>
+</h4>
+{% endfor %} {% endblock %}

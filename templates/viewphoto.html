@@ -1,0 +1,18 @@
+{% extends 'newpage.html' %} {% block title %}View User{% endblock title %}
+{%block content %}
+<h1>View user details...</h1>
+
+<div class="dogtag">
+  <div class="panel">User Profile</div>
+  <p>Name: {{ information.name }}</p>
+  <p>Email: {{ information.email }}</p>
+  <p>Location: {{ information.location }}</p>
+  <div class="profile_pic"><img src="data:;base64,{{ image }}" /></div>
+  <p>Wins: {{ records.wins }}</p>
+  <p>Draws: {{ records.draws }}</p>
+  <p>Losses: {{ records.losses }}</p>
+</div>
+
+<a href="{{url_for('fighters')}}">Back to Fighters</a>
+
+{% endblock %}

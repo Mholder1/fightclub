@@ -1,0 +1,102 @@
+{% extends 'newpage.html' %} {% block title %}{{ title }}{% endblock title %}
+
+
+{%block content %}
+
+<body>
+    
+    <h1>Fight Club</h1>
+    
+        <form class="dropdown" method="POST">
+            <p><h2>Add Fight</h2></p>
+            {{ form.csrf_token}}  
+
+            <div id="form-group" class="form-group">
+                <label for="fighting">Name:</label>
+                    {{ form.first_opponent }}
+            </div>
+
+            <div class="form-group">
+                <label for="fighting">Opponent:</label>
+                    {{ form.second_opponent}}
+            </div>
+
+            <div class="form-group">
+                <label for="fighting">Winner:</label>
+                    {{ form.victor}} 
+            </div>
+            <br>
+            <input class="db_input" type="submit">
+
+        </form> 
+
+  {%if db_error %}
+  <div class="db-error" id="db-error"> {{db_error}}</div>
+  {% endif %}
+  {%if error_db %}
+  <div class="db-error" id="db-error"> {{error_db}}</div>
+  {% endif %}
+  {% if victory_statement %}
+  <div class="victory_statement"> {{victory_statement}}</div>
+  {% endif %}
+
+  
+    
+
+
+<br><br><br><br><br><br>
+
+
+
+<div>
+    <style>
+        th {
+            width: 150px;
+            text-align: center;
+            border: 1px solid black;
+            padding: 5px;
+            background-color: rgb(150, 11, 11);
+            color: seashell;
+        }
+        td {
+            width: 150px;
+            text-align: center;
+            border: 1px solid black;
+            padding: 5px;
+            background-color: floralwhite;
+            color: rgb(148, 16, 16);
+            font-weight: bold;
+        }
+    </style>
+   
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Wins</th>
+            <th>Draws</th>
+            <th>Losses</th>
+        </tr> 
+        </thead>
+        <tbody>
+            {% for name in tables %}
+            <tr>
+            <td>{{name.name}}</td>
+            
+            <td>{{name.wins}}</td>
+           
+            
+            <td>{{name.draws}}</td>
+            
+           
+            <td>{{name.losses}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+       
+    </table>
+  </div>
+
+</body>
+</html>
+ {% endblock %}

@@ -1,3 +1,39 @@
+div.errorbox {
+  font-family: sans-serif;
+  font-style: normal;
+  color: #ac1616;
+  font-size: 15px;
+  padding: 10px;
+  margin: 10px;
+  color: #ba3939;
+  background: #f0caca;
+  border: 1px solid #a33a3a;
+  position: relative;
+}
+
+div.errorbox:empty {
+  display: none;
+}
+
+div.close-validation::before {
+  display: none;
+}
+
+div.close {
+  position: absolute;
+  top: 30%;
+  right: 10px;
+  color: #888;
+  cursor: pointer;
+}
+
+p.formlabel {
+  font-family: sans-serif;
+  font-style: normal;
+  color: #160b0b;
+  font-size: 15px;
+}
+
 input[type="text"]:focus {
   background-color: lightblue;
   width: 40%;
@@ -6,7 +42,11 @@ input[type="text"]:focus {
 input[type="text"] {
   transition: width 0.4s ease-in-out;
   width: 10%;
+  border-color: #0d179e;
+  margin-bottom: 5px;
+  border-radius: 4px;
 }
+
 input[type="button"] {
   cursor: grabbing;
 }
@@ -38,4 +78,167 @@ h1 {
 .topnav a:hover {
   background-color: #ddd;
   color: black;
+}
+
+.table {
+  text-align: center;
+  margin-left: 865px;
+  margin-right: 855px;
+  color: #f0caca;
+  background-color: black;
+}
+
+p.fightTable {
+  text-align: center;
+  margin-left: 865px;
+  margin-right: 855px;
+  color: #f0caca;
+  background-color: black;
+}
+
+body {
+  background-color: #db9696;
+}
+
+div.db-error {
+  font-family: sans-serif;
+  font-style: normal;
+  color: #f70707;
+  font-size: 15px;
+  padding: 10px;
+  margin: 10px;
+  color: #b90817;
+  background: #f0caca;
+  border: 1px solid #a33a3a;
+  position: absolute;
+  border-radius: 5px;
+}
+
+div.victory_statement {
+  font-family: sans-serif;
+  font-style: normal;
+  color: #07f727;
+  font-size: 15px;
+  padding: 10px;
+  margin: 10px;
+  color: #08b920;
+  background: #caf0cf;
+  border: 1px solid #46a33a;
+  position: absolute;
+  border-radius: 5px;
+}
+
+.dropdown {
+  font-family: sans-serif;
+}
+
+.dropdown h2 {
+  color: rgb(145, 3, 3);
+}
+
+.form-group {
+  position: relative;
+  font-family: Arial;
+  font-weight: bold;
+}
+.form-group select {
+  background-color: rgb(143, 33, 6);
+  width: 12%;
+  border-radius: 2px;
+  margin: 5px;
+  padding: 5px;
+  color: white;
+  font-family: sans-serif;
+}
+.db_input {
+  background-color: rgb(155, 22, 4);
+  text-align: right;
+  color: white;
+  font-family: sans-serif;
+}
+img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 95%;
+}
+
+.panel {
+  margin: 10px;
+  background-color: #5e1705;
+  color: white;
+  font-weight: bold;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.dogtag {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: 10px;
+  background-color: #5e1705;
+  border: 2px solid white;
+}
+
+.panel {
+  border: 1px solid white;
+  margin: 10px;
+}
+.dogtag p {
+  color: white;
+  font-weight: bold;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  margin: 20px 20px;
+  height: 20px;
+  margin-bottom: 20px;
+}
+
+.dogtag_buttons button {
+  background-color: #a31609;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+}
+.dogtag_buttons {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.success {
+  font-family: sans-serif;
+  font-style: normal;
+  color: #07f727;
+  font-size: 15px;
+  padding: 10px;
+  margin: 10px;
+  color: #08b920;
+  background: #caf0cf;
+  border: 1px solid #46a33a;
+  position: absolute;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.success:empty {
+  display: none;
+}
+
+.error {
+  font-family: sans-serif;
+  font-style: normal;
+  color: #ac1616;
+  font-size: 15px;
+  padding: 10px;
+  margin: 10px;
+  color: #ba3939;
+  background: #f0caca;
+  border: 1px solid #a33a3a;
+  position: relative;
+}
+
+.error:empty {
+  display: none;
 }
