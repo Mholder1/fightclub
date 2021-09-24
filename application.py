@@ -19,7 +19,7 @@ import base64
 subscribers = []
 
 
-app = Flask(__name__)
+application = app = Flask(__name__)
 api = Api(app)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -68,21 +68,7 @@ def fighters():
             fighter_name = request.form['name']
             fighter_email = request.form['email']
             fighter_loc = request.form['location']
-          
-            
-            if not fighter_name:
-                name_error= "No name entered"
-            
-            if not fighter_email:
-                email_error = "No email entered"
-            
-
-            if not fighter_loc:
-                loc_error= "No location entered"
-                    
-            if not pic:
-                pic_error = "Could not find image"
-            
+        
         
             filename = secure_filename(pic.filename)
             mimetype = pic.mimetype
@@ -95,8 +81,7 @@ def fighters():
             db.session.commit()
             victory_statement = "Thank you. Your details has been recorded"
             fighters = Fights.query.order_by(Fights.date_created)
-            return render_template('fighters.html', fighters=fighters, success=victory_statement,
-                pic_error=pic_error, name_error=name_error, email_error=email_error, loc_error=loc_error)
+            return render_template('fighters.html', fighters=fighters, success=victory_statement)
     except Exception as e:
         return f"There was an error adding your fighter {e}"
     else:
