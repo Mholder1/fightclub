@@ -41,7 +41,6 @@ input[type="text"]:focus {
 
 input[type="text"] {
   transition: width 0.4s ease-in-out;
-  width: 10%;
   border-color: #0d179e;
   margin-bottom: 5px;
   border-radius: 4px;
@@ -114,6 +113,10 @@ div.db-error {
   border-radius: 5px;
 }
 
+div.db-error:empty {
+  display: none;
+}
+
 div.victory_statement {
   font-family: sans-serif;
   font-style: normal;
@@ -140,6 +143,7 @@ div.victory_statement {
   position: relative;
   font-family: Arial;
   font-weight: bold;
+  color: white;
 }
 .form-group select {
   background-color: rgb(143, 33, 6);
@@ -204,7 +208,11 @@ img {
 }
 .dogtag_buttons {
   display: inline-block;
-  margin-left: 20px;
+  margin-left: 10px;
+  padding: 5px;
+}
+
+.fighter_body {
 }
 
 .success {
@@ -241,4 +249,46 @@ img {
 
 .error:empty {
   display: none;
+}
+
+.home {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background: rgba(206, 170, 170, 0.8);
+  border: 2px solid white;
+  column-count: 2;
+  column-gap: 40px;
+  column-rule-style: solid;
+  column-rule-color: lightblue;
+  column-width: 80px;
+  padding: 100px;
+}
+
+li a {
+  color: white;
+  font-weight: bold;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  margin: 20px 20px;
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+body {
+  background-image: url("Baker-FightClub.jpg");
+}
+
+.welcome {
+  color: white;
+}
+
+.signup {
+  background: rgba(226, 215, 215, 0.8);
+  width: 400px;
+  text-align: left;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 2px;
+}
+
+.back {
+  background: white;
 }

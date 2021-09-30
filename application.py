@@ -59,34 +59,9 @@ class Table(db.Model):
 
 @app.route('/fighters', methods=['POST', 'GET'])
 def fighters():
-    title = "Here are our fighters"
-    
-    #Push to Database
-    try:
-        if request.method == 'POST':
-            pic = request.files['file']
-            fighter_name = request.form['name']
-            fighter_email = request.form['email']
-            fighter_loc = request.form['location']
-        
-        
-            filename = secure_filename(pic.filename)
-            mimetype = pic.mimetype
-            new_fighter = Fights(name=fighter_name, email=fighter_email, 
-            location=fighter_loc, img=pic.read(), pic_name=filename, mimetype=mimetype)
-            new_table = Table(name=fighter_name, wins=0, draws=0, losses=0)
-
-            db.session.add(new_fighter)
-            db.session.add(new_table)
-            db.session.commit()
-            victory_statement = "Thank you. Your details has been recorded"
-            fighters = Fights.query.order_by(Fights.date_created)
-            return render_template('fighters.html', fighters=fighters, success=victory_statement)
-    except Exception as e:
-        return f"There was an error adding your fighter {e}"
-    else:
-        fighters = Fights.query.order_by(Fights.date_created)
-        return render_template('fighters.html', fighters=fighters, title=title)
+    title = "Our current fighters"
+    fighters = Fights.query.order_by(Fights.date_created)
+    return render_template('fighters.html', fighters=fighters, title=title)
 
 @app.route('/viewphoto/<int:id>', methods=['POST', 'GET'])
 def viewphoto(id):
@@ -139,47 +114,46 @@ def delete(id):
     except:
         return "There was a problem deleting fighter"
 
+@app.route('/newfighter', methods=['POST', 'GET'])
+def newfighter():
+    title = "Create your user profile"
+    
+    #Push to Database
+    try:
+        if request.method == 'POST':
+            pic = request.files['file']
+            fighter_name = request.form['name']
+            fighter_email = request.form['email']
+            fighter_loc = request.form['location']
+
+            if not pic or not fighter_name or not fighter_email or not fighter_loc:
+                error_msg = "Sorry, please complete all fields"
+                return render_template('newfighter.html', title=title, error_msg=error_msg, pic=pic, fighter_name=fighter_name,
+                fighter_email=fighter_email, fighter_loc=fighter_loc)
+        
+        
+            filename = secure_filename(pic.filename)
+            mimetype = pic.mimetype
+            new_fighter = Fights(name=fighter_name, email=fighter_email, 
+            location=fighter_loc, img=pic.read(), pic_name=filename, mimetype=mimetype)
+            new_table = Table(name=fighter_name, wins=0, draws=0, losses=0)
+
+            db.session.add(new_fighter)
+            db.session.add(new_table)
+            db.session.commit()
+            victory_statement = "Thank you. Your details has been recorded"
+            fighters = Fights.query.order_by(Fights.date_created)
+            return render_template('newfighter.html', fighters=fighters, success=victory_statement, title=title)
+    except Exception as e:
+        return f"There was an error adding your fighter {e}"
+    else:
+        return render_template('newfighter.html')
+
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
-
-def post_params_okay(mandatory_fields, req_data):
-    for field in mandatory_fields:
-        if field in req_data:
-            continue
-        else:
-            return False
-    return True
-
-
-@app.route('/addfight', methods=['POST'])
-@cross_origin()
-def addfight():
-    fight_data = request.get_json(force=True)
-    logging.info(f"fight data is {fight_data}")
-    if fight_data is None:
-        return Response("No fight data posted.", 400, mimetype="text/plain")
-    if not request.is_json:
-        return Response("Data is not json", 400, mimetype="text/plain")
-    if not post_params_okay(("name", "winner", "matchup"), fight_data):
-        return Response("Missing field data, must supply name, winner and matchup", 400, mimetype="text/plain")
-    name = fight_data['name']
-    matchup = fight_data['matchup']
-    winner = fight_data['winner']
-    if winner not in [name, matchup]:
-        return Response(json.dumps({"error": "Winner must be either name or opponent."}), 400, mimetype="text/plain")
-    if not name or not matchup:
-        return Response(json.dumps({"error": "You have not entered a name or an opponent"}), 400, mimetype="text/plain")
-    get_data = fightclub.amend_table(
-        name.capitalize(), matchup.capitalize(), winner.capitalize())
-    return Response(json.dumps(get_data), 200, mimetype='application/json')
-
-@app.route('/gettable')
-def gettable():
-    table = fightclub.read_table()
-    return Response(json.dumps(table), 200, mimetype="application/json")
 
 
 def enable_logging():
