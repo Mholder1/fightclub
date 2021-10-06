@@ -1,5 +1,4 @@
 from sqlalchemy.orm import backref
-import fightclub
 import logging
 from flask_cors import CORS, cross_origin
 from flask import Response
@@ -19,14 +18,15 @@ import base64
 subscribers = []
 
 
-application = app = Flask(__name__)
-api = Api(app)
-CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fights.db'
-app.config['SECRET_KEY'] = 'cairocoders-ednalan'
+application = Flask(__name__)
+api = Api(application)
+CORS(application)
+application.config['CORS_HEADERS'] = 'Content-Type'
+application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fights.db'
+application.config['SECRET_KEY'] = 'cairocoders-ednalan'
+
 # Initialize the database
-db = SQLAlchemy(app)
+db = SQLAlchemy(application)
 # Create db model
 
 class Fights(db.Model):
@@ -57,13 +57,13 @@ class Table(db.Model):
 
 
 
-@app.route('/fighters', methods=['POST', 'GET'])
+@application.route('/fighters', methods=['POST', 'GET'])
 def fighters():
     title = "Our current fighters"
     fighters = Fights.query.order_by(Fights.date_created)
     return render_template('fighters.html', fighters=fighters, title=title)
 
-@app.route('/viewphoto/<int:id>', methods=['POST', 'GET'])
+@application.route('/viewphoto/<int:id>', methods=['POST', 'GET'])
 def viewphoto(id):
     user_info = Fights.query.filter_by(id=id).first()
     image = base64.b64encode(user_info.img).decode('ascii')
@@ -71,7 +71,7 @@ def viewphoto(id):
     return render_template('viewphoto.html', image=image, information=user_info, records=records)
     
     
-@app.route('/addphoto/<int:id>', methods=['POST', 'GET'])
+@application.route('/addphoto/<int:id>', methods=['POST', 'GET'])
 def addphoto(id):
     photo_to_update = Fights.query.get_or_404(id)
 
@@ -85,7 +85,7 @@ def addphoto(id):
     else:
         return render_template('addphoto.html', photo_to_update=photo_to_update)
 
-@app.route('/update/<int:id>', methods=['POST', 'GET'])
+@application.route('/update/<int:id>', methods=['POST', 'GET'])
 def update(id):
     fighter_to_update = Fights.query.get_or_404(id)
     table_to_update = Table.query.get_or_404(id)
@@ -101,7 +101,7 @@ def update(id):
     else:
         return render_template('update.html', fighter_to_update=fighter_to_update)
 
-@app.route('/delete/<int:id>')
+@application.route('/delete/<int:id>')
 def delete(id):
     fighter_to_delete = Fights.query.get_or_404(id)
     table_to_delete = Table.query.get_or_404(id)
@@ -114,7 +114,7 @@ def delete(id):
     except:
         return "There was a problem deleting fighter"
 
-@app.route('/newfighter', methods=['POST', 'GET'])
+@application.route('/newfighter', methods=['POST', 'GET'])
 def newfighter():
     title = "Create your user profile"
     
@@ -151,7 +151,7 @@ def newfighter():
 
 
 
-@app.route('/')
+@application.route('/')
 def index():
     return render_template('index.html')
 
@@ -172,7 +172,7 @@ class Form(FlaskForm):
     second_opponent = SelectField('Select opponent', choices=[])
     victor = SelectField('Select winner', choices=[])
 
-@app.route('/addnew', methods=['GET', 'POST'])
+@application.route('/addnew', methods=['GET', 'POST'])
 def addnew():
     title = "Add New"
 
@@ -209,4 +209,4 @@ def addnew():
 
 if __name__ == '__main__':
     enable_logging()
-    app.run(debug=True)
+    application.run(host='0.0.0.0', port=8080, debug=True)
