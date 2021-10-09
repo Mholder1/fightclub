@@ -2,8 +2,8 @@
 {%block content %}
 
 <h1>Our current users</h1>
+{% for fighter in fighters %}
 <article class="fighter_body">
-  {% for fighter in fighters %}
   <h4>
     <div class="dogtag">
       <p>{{ fighter.name }}</p>

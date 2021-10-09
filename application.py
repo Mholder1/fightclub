@@ -13,6 +13,7 @@ from wtforms import SelectField
 from flask_wtf import FlaskForm
 from werkzeug.utils import secure_filename
 import base64
+import random
 
 
 subscribers = []
@@ -127,7 +128,7 @@ def newfighter():
             fighter_loc = request.form['location']
 
             if not pic or not fighter_name or not fighter_email or not fighter_loc:
-                error_msg = "Sorry, please complete all fields"
+                error_msg = "Please complete all fields"
                 return render_template('newfighter.html', title=title, error_msg=error_msg, pic=pic, fighter_name=fighter_name,
                 fighter_email=fighter_email, fighter_loc=fighter_loc)
         
@@ -176,6 +177,8 @@ class Form(FlaskForm):
 def addnew():
     title = "Add New"
 
+    coinflip = coinToss()
+    
     tables = Table.query.order_by(Table.wins.desc())
     
     form = Form()
@@ -206,6 +209,17 @@ def addnew():
         return render_template('addnew.html', victory_statement=victory_statement, title=title, form=form, tables=tables)
     
     return render_template('addnew.html', title=title, form=form, tables=tables)
+
+def coinToss():
+    coin = ['Heads', 'Tails']
+    toss = random.choice(coin)
+
+    selection = input("Heads or Tails?: ")
+
+    if selection == toss:
+        print("You win! The coin landed on " + toss)
+    else:
+        print("You lose! The coin landed on " + toss)
 
 if __name__ == '__main__':
     enable_logging()

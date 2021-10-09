@@ -6,7 +6,6 @@
 <body>
     
     <h1>Fight Club</h1>
-    
         <form class="dropdown" method="POST">
             <p><h2>Add Fight</h2></p>
             {{ form.csrf_token}}  
@@ -27,18 +26,19 @@
             </div>
             <br>
             <input class="db_input" type="submit">
+            <br><br>
+            {%if db_error %}
+            <div class="db-error" id="db-error"> {{db_error}}</div>
+            {% endif %}
+            {%if error_db %}
+            <div class="db-error" id="db-error"> {{error_db}}</div>
+            {% endif %}
+            {% if victory_statement %}
+            <div class="victory_statement"> {{victory_statement}}</div>
+            {% endif %}
 
         </form> 
-
-  {%if db_error %}
-  <div class="db-error" id="db-error"> {{db_error}}</div>
-  {% endif %}
-  {%if error_db %}
-  <div class="db-error" id="db-error"> {{error_db}}</div>
-  {% endif %}
-  {% if victory_statement %}
-  <div class="victory_statement"> {{victory_statement}}</div>
-  {% endif %}
+ 
 
   
     

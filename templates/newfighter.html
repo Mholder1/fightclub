@@ -9,6 +9,10 @@
       enctype="multipart/form-data"
       method="POST"
     >
+      <div class="registration">
+        Register here and have your own personalised fighter!
+      </div>
+      <br />
       <input
         value="{{fighter_name}}"
         type="text"
@@ -26,11 +30,18 @@
         type="text"
         name="location"
         placeholder="Location"
-      /><br />
-      <input value="{{pic}}" type="file" name="file" />
-      <input type="submit" value="Add Name" />
+      /><br /><br />
+      <input
+        class="custom-file-input"
+        value="{{pic}}"
+        type="file"
+        name="file"
+      />
+
+      <input class="submit" type="submit" value="Create profile" />
       <br /><br />
       <a class="back" href="/">Go back</a>
+      <br /><br />
       <p class="success">{{ success }}</p>
       <div class="db-error">{{ error_msg }}</div>
     </form>
