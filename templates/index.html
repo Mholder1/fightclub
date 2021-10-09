@@ -2,101 +2,17 @@
 {% block title %} Fightclub - Home {% endblock title %}
 {% block content %}
   <body>
+    <main>
     <h1>Fight Club</h1>
-    <script>
+    <h2 class="welcome">Welcome!</h2>
+      <div class="home">
+        <li><a href="/newfighter">Create a user profile!</a></li>
+        <li><a href="/addnew">View our league table!</a></li>
+      </div>
   
-      function drawTableFunction(data) {
-        console.log("in draw table", data);
-        var txt = "";
-        txt += "<table border='1'>";
-        for (x in data.contestants) {
-          console.log(data.contestants);
-          txt +=
-            "<tr><td>" +
-            data.contestants[x].name +
-            "</td><td>" +
-            data.contestants[x].wins +
-            "</td><td>" +
-            data.contestants[x].draws +
-            "</td><td>" +
-            data.contestants[x].losses +
-            "</td></tr>";
-        }
-        txt += "</table>";
-        document.getElementById("fightTable").innerHTML = txt;
-      }
-
-      async function postData(e) {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const value = Object.fromEntries(formData.entries());
-        newValue = JSON.stringify(value);
-        console.log(newValue);
-
-        url = "/addfight";
-        const response = await fetch(url, {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          mode: "cors", // no-cors, *cors, same-origin
-          cache: "default", // *default, no-cache, reload, force-cache, only-if-cachaddfight_ed
-          credentials: "same-origin", // include, *same-origin, omit
-          redirect: "follow", // manual, *follow, error
-          referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Accept: "application/json",
-
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-          },
-
-          body: newValue, // body data type must match "Content-Type" header
-        })   
-        .then(function(response) {
-          if (response.ok) return response.json();
-          return response.json()
-          .then(response => {throw new Error(response.error)})
-        })
-        .then(data => {
-          drawTableFunction(data)
-        })
-        .catch((error) => {
-          document.getElementById("errorbox").innerHTML = error.message
-
-        });
-    }
-
-      function getTableFunction() {
-        fetch("/gettable")
-          .then((response) => response.json())
-          .then((data) => drawTableFunction(data));
-      }
-    </script>
-
-    <form id="addfight_form" name="addfight_form" class="addform" style="text-align: center">
-      <p class="formlabel">Enter two opponents and the victor to update our fight table</p>
-      <input type="text" name="name" placeholder="Name" /><br />
-      <input type="text" name="matchup" placeholder="Opponent" /><br />
-      <input type="text" name="winner" placeholder="Who won?"/><br /><br />
-      <button type="addfight">Add Fight</button>
-      <div id="errorbox" class="errorbox"></div>
-    </form>  
-    <br /><br />
-    
-
-    <script>
-      const form = document.querySelector("#addfight_form");
-      form.addEventListener("submit", postData);
-    </script>
-
-    <div style="text-align: center;">
-      <input
-        id="getTable"
-        type="button"
-        value="Get Table"
-        onclick="getTableFunction();"
-      />
-    </div>
-
-    <p id="fightTable" class="fightTable"></p>
+        
+      
+    </main>
   </body>
 </html>
 {% endblock %}

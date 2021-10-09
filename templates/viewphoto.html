@@ -5,14 +5,15 @@
 <div class="dogtag">
   <div class="panel">User Profile</div>
   <p>Name: {{ information.name }}</p>
-  <p>Email: {{ information.email }}</p>
   <p>Location: {{ information.location }}</p>
   <div class="profile_pic"><img src="data:;base64,{{ image }}" /></div>
   <p>Wins: {{ records.wins }}</p>
   <p>Draws: {{ records.draws }}</p>
   <p>Losses: {{ records.losses }}</p>
 </div>
-
-<a href="{{url_for('fighters')}}">Back to Fighters</a>
+<br /><br />
+<a class="back" href="{{url_for('fighters')}}" style="margin-left: 800px"
+  >Back to Fighters</a
+>
 
 {% endblock %}

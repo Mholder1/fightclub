@@ -1,0 +1,50 @@
+{% extends 'newpage.html' %} {% block title %}{{ title }}{% endblock title %}
+{%block content %}
+<body>
+  <h1>Create your user profile</h1>
+  <div style="text-align: center">
+    <form
+      class="signup"
+      action="/newfighter"
+      enctype="multipart/form-data"
+      method="POST"
+    >
+      <div class="registration">
+        Register here and have your own personalised fighter!
+      </div>
+      <br />
+      <input
+        value="{{fighter_name}}"
+        type="text"
+        name="name"
+        placeholder="Name"
+      /><br />
+      <input
+        value="{{fighter_email}}"
+        type="text"
+        name="email"
+        placeholder="Email"
+      /><br />
+      <input
+        value="{{fighter_loc}}"
+        type="text"
+        name="location"
+        placeholder="Location"
+      /><br /><br />
+      <input
+        class="custom-file-input"
+        value="{{pic}}"
+        type="file"
+        name="file"
+      />
+
+      <input class="submit" type="submit" value="Create profile" />
+      <br /><br />
+      <a class="back" href="/">Go back</a>
+      <br /><br />
+      <p class="success">{{ success }}</p>
+      <div class="db-error">{{ error_msg }}</div>
+    </form>
+  </div>
+</body>
+{% endblock %}

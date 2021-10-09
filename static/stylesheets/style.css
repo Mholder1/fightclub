@@ -41,7 +41,6 @@ input[type="text"]:focus {
 
 input[type="text"] {
   transition: width 0.4s ease-in-out;
-  width: 10%;
   border-color: #0d179e;
   margin-bottom: 5px;
   border-radius: 4px;
@@ -65,13 +64,14 @@ h1 {
 
 /* Navbar links */
 .topnav a {
-  float: left;
+  float: right;
   display: block;
   color: #ac1616;
   text-align: center;
-  padding: 14px 16px;
+  padding: 28px 42px;
   text-decoration: none;
   font-weight: bold;
+  font-size: 150%;
 }
 
 /* Links - change color on hover */
@@ -80,20 +80,11 @@ h1 {
   color: black;
 }
 
-.table {
+table {
   text-align: center;
-  margin-left: 865px;
-  margin-right: 855px;
   color: #f0caca;
   background-color: black;
-}
-
-p.fightTable {
-  text-align: center;
-  margin-left: 865px;
-  margin-right: 855px;
-  color: #f0caca;
-  background-color: black;
+  margin: auto;
 }
 
 body {
@@ -106,12 +97,15 @@ div.db-error {
   color: #f70707;
   font-size: 15px;
   padding: 10px;
-  margin: 10px;
   color: #b90817;
   background: #f0caca;
   border: 1px solid #a33a3a;
   position: absolute;
   border-radius: 5px;
+}
+
+div.db-error:empty {
+  display: none;
 }
 
 div.victory_statement {
@@ -130,6 +124,11 @@ div.victory_statement {
 
 .dropdown {
   font-family: sans-serif;
+  background: rgba(226, 215, 215, 0.8);
+  padding: 20px;
+  border-radius: 2px;
+  width: 500px;
+  margin: auto;
 }
 
 .dropdown h2 {
@@ -137,13 +136,12 @@ div.victory_statement {
 }
 
 .form-group {
-  position: relative;
   font-family: Arial;
   font-weight: bold;
+  color: white;
 }
 .form-group select {
   background-color: rgb(143, 33, 6);
-  width: 12%;
   border-radius: 2px;
   margin: 5px;
   padding: 5px;
@@ -174,7 +172,7 @@ img {
 .dogtag {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-width: 300px;
-  margin: 10px;
+  margin: auto;
   background-color: #5e1705;
   border: 2px solid white;
 }
@@ -194,17 +192,19 @@ img {
 
 .dogtag_buttons button {
   background-color: #a31609;
-  border: none;
   color: white;
   padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
 }
+
 .dogtag_buttons {
   display: inline-block;
-  margin-left: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.fighter_body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .success {
@@ -241,4 +241,90 @@ img {
 
 .error:empty {
   display: none;
+}
+
+.home {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background: rgba(206, 170, 170, 0.8);
+  border: 2px solid white;
+  column-count: 2;
+  column-gap: 40px;
+  column-rule-style: solid;
+  column-rule-color: lightblue;
+  column-width: 80px;
+  padding: 100px;
+}
+
+li a {
+  color: white;
+  font-weight: bold;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  margin: 20px 20px;
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+body {
+  background-image: url("Baker-FightClub.jpg");
+}
+
+.welcome {
+  color: white;
+}
+
+.signup {
+  background: rgba(226, 215, 215, 0.8);
+  width: 400px;
+  text-align: left;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 2px;
+}
+
+.back {
+  background: white;
+}
+
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: "Choose photo";
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+
+.submit {
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.submit:hover {
+  border-color: black;
+}
+
+.registration {
+  font-family: sans-serif;
+  font-weight: bold;
 }
