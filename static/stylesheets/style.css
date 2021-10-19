@@ -108,18 +108,55 @@ div.db-error:empty {
   display: none;
 }
 
+div.draw {
+  font-family: sans-serif;
+  font-style: normal;
+  color: #8a8383;
+  font-size: 15px;
+  padding: 10px;
+  color: #413839;
+  background: #a19797;
+  border: 1px solid #686161;
+  position: absolute;
+  border-radius: 5px;
+}
+
+div.draw:empty {
+  display: none;
+}
+
+div.details {
+  font-family: sans-serif;
+  font-style: normal;
+  color: #7a85b8;
+  font-size: 15px;
+  padding: 10px;
+  color: #080a72;
+  background: #7488df;
+  border: 1px solid #383968;
+  position: absolute;
+  border-radius: 5px;
+}
+
+div.details:empty {
+  display: none;
+}
+
 div.victory_statement {
   font-family: sans-serif;
   font-style: normal;
   color: #07f727;
   font-size: 15px;
   padding: 10px;
-  margin: 10px;
   color: #08b920;
   background: #caf0cf;
   border: 1px solid #46a33a;
   position: absolute;
   border-radius: 5px;
+}
+
+div.victory_statement:empty {
+  display: none;
 }
 
 .dropdown {

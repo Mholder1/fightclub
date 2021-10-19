@@ -14,6 +14,8 @@ from flask_wtf import FlaskForm
 from werkzeug.utils import secure_filename
 import base64
 import random
+from random import randrange
+from math import fabs
 
 
 subscribers = []
@@ -177,49 +179,89 @@ class Form(FlaskForm):
 def addnew():
     title = "Add New"
 
-    coinflip = coinToss()
-    
+    victory_statement=""
+    loss_statement=""
+    draw_statement=""
+    congrat_statement=""
+    tie_statement=""
+    playertwo_statement=""
+
     tables = Table.query.order_by(Table.wins.desc())
     
     form = Form()
     form.first_opponent.choices = [(Table.id, Table.name) for Table in Table.query.all()]
     form.second_opponent.choices = [(Table.id, Table.name) for Table in Table.query.all()]
-    form.victor.choices = [(Table.id, Table.name) for Table in Table.query.all()]
+ 
 
     if request.method == 'POST':
         PlayerOne = Table.query.filter_by(id=form.first_opponent.data).first()
         PlayerTwo = Table.query.filter_by(id=form.second_opponent.data).first()
-        Victor = Table.query.filter_by(id=form.victor.data).first()
-        Victor.wins = Victor.wins + 1
+
+        winner = False
+        draw = False
+        
+        user1Guess = request.form['pick_number']
+        if not user1Guess:
+            guess_error = "Please fill in a number"
+            return render_template('addnew.html', guess_error=guess_error, title=title, form=form, tables=tables)
+        user2Guess = randrange(1,11)
+        try:
+            user1Guess = int(user1Guess)
+        except Exception as e:
+            guess_error = "Guess must be a number"
+            return render_template('addnew.html', guess_error=guess_error, title=title, form=form, tables=tables)
+        computerGuess = randrange(1,11)
+        u1diff = fabs(computerGuess-user1Guess)
+        u2diff = fabs(computerGuess-user2Guess)
+
+        if u1diff == u2diff:
+            draw = True
+        elif u1diff < u2diff:
+            winner = True
+        else:
+            winner = False
+
         if PlayerOne == PlayerTwo:
             db_error = "You cannot fight yourself"
             return render_template('addnew.html', db_error=db_error, title=title, form=form, tables=tables)
-        if Victor != PlayerOne:
-            if Victor != PlayerTwo:
-                error_db = "Victor must be one of the fighters"
-                return render_template('addnew.html', error_db=error_db, title=title, form=form, tables=tables)
-            else:
-                db.session.commit()
-        if Victor == PlayerOne:
+        elif user1Guess > 10:
+            guess_error = "Guess must be between 1 and 10"
+            return render_template('addnew.html', guess_error=guess_error, title=title, form=form, tables=tables)
+        elif user1Guess < 1:
+            guess_error = "Guess must be between 1 and 10"
+            return render_template('addnew.html', guess_error=guess_error, title=title, form=form, tables=tables)
+        
+
+        
+        user1Guess = str(user1Guess)
+        user2Guess = str(user2Guess)
+        computerGuess = str(computerGuess)
+        
+        print(computerGuess)
+        details = "You guessed %s, the hidden number was %s and your opponent guessed %s" % (user1Guess, computerGuess, user2Guess)
+        if winner == True:
+            victory_statement = "You win!"
+            congrat_statement = "Congratulations %s! A win has been credited to your record" % (PlayerOne.name)
+            PlayerOne.wins = PlayerOne.wins + 1
             PlayerTwo.losses = PlayerTwo.losses + 1
+        elif draw == True:
+            PlayerOne.draws = PlayerOne.draws + 1
+            PlayerTwo.draws = PlayerTwo.draws + 1
+            draw_statement = "It's a tie!"
+            tie_statement = "%s and %s, a draw has been added to each of your records" % (PlayerOne.name, PlayerTwo.name)
         else:
+            loss_statement = "You lose!"
+            playertwo_statement = "Congratulations %s! A win has been credited to your record" % (PlayerTwo.name)
             PlayerOne.losses = PlayerOne.losses + 1
+            PlayerTwo.wins = PlayerTwo.wins + 1
         db.session.commit()
-        victory_statement = "Thank you. Your contest has been recorded"
-        return render_template('addnew.html', victory_statement=victory_statement, title=title, form=form, tables=tables)
+        
+        return render_template('addnew.html', victory_statement=victory_statement, title=title,
+         form=form, tables=tables, loss_statement=loss_statement, draw_statement=draw_statement, details=details, congrat_statement=congrat_statement,
+         tie_statement=tie_statement, playertwo_statement=playertwo_statement)
     
     return render_template('addnew.html', title=title, form=form, tables=tables)
 
-def coinToss():
-    coin = ['Heads', 'Tails']
-    toss = random.choice(coin)
-
-    selection = input("Heads or Tails?: ")
-
-    if selection == toss:
-        print("You win! The coin landed on " + toss)
-    else:
-        print("You lose! The coin landed on " + toss)
 
 if __name__ == '__main__':
     enable_logging()
