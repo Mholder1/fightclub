@@ -11,38 +11,56 @@
             {{ form.csrf_token}}  
 
             <div id="form-group" class="form-group">
-                <label for="fighting">Name:</label>
+                <label for="fighting">Select your fighter:</label>
                     {{ form.first_opponent }}
             </div>
 
             <div class="form-group">
-                <label for="fighting">Opponent:</label>
+                <label for="fighting">Select your opponent:</label>
                     {{ form.second_opponent}}
             </div>
-
-            <div class="form-group">
-                <label for="fighting">Winner:</label>
-                    {{ form.victor}} 
-            </div>
             <br>
-            <input class="db_input" type="submit">
+            <div class="form-group">
+                There is a hidden number between 1 and 10.
+                <br><br>
+                The fighter who can guesses closest to it will be victorious <br><br><input name="pick_number" type="text">
+            </div>
+
+            <br>
+            <input id="click" class="db_input" type="submit">
+           
             <br><br>
             {%if db_error %}
-            <div class="db-error" id="db-error"> {{db_error}}</div>
+            <div class="db-error" id="db-error">{{db_error}}</div>
             {% endif %}
             {%if error_db %}
-            <div class="db-error" id="db-error"> {{error_db}}</div>
+            <div class="db-error" id="db-error">{{error_db}}</div>
             {% endif %}
             {% if victory_statement %}
-            <div class="victory_statement"> {{victory_statement}}</div>
+            <div class="victory_statement">{{victory_statement}}</div>
             {% endif %}
-
+            {% if loss_statement %}
+            <div class="db-error">{{loss_statement}}</div>
+            {% endif %}
+            {% if draw_statement %}
+            <div class="draw">{{draw_statement}}</div>
+            {% endif %}
+            {% if guess_error %}
+            <div class="db-error">{{guess_error}}</div>
+            {% endif %}
+            <br><br><br>
+            <div class="victory_statement">{{congrat_statement}}</div>
+            <div class="db-error">{{playertwo_statement}}</div>
+            <div class="draw">{{tie_statement}}</div>
+            <br><br><br>
+            <div class="details">{{details}}</div>
+            <br><br><br>
+            
+            
         </form> 
+        
  
-
-  
-    
-
+     
 
 <br><br><br><br><br><br>
 
