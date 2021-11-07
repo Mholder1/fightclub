@@ -9,13 +9,18 @@ from flask_sqlalchemy import SQLAlchemy
 import smtplib
 import os
 from datetime import datetime
-from wtforms import SelectField
+from wtforms import SelectField, PasswordField, BooleanField
 from flask_wtf import FlaskForm
 from werkzeug.utils import secure_filename
 import base64
 import random
 from random import randrange
 from math import fabs
+
+from wtforms.fields.core import StringField
+from wtforms.validators import InputRequired, Email, Length, email_validator
+from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 subscribers = []
@@ -27,19 +32,24 @@ CORS(application)
 application.config['CORS_HEADERS'] = 'Content-Type'
 application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fights.db'
 application.config['SECRET_KEY'] = 'cairocoders-ednalan'
-
-# Initialize the database
 db = SQLAlchemy(application)
-# Create db model
+login_manager = LoginManager()
+login_manager.init_app(application)
+login_manager.login_view = 'login'
 
-class Fights(db.Model):
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Fights.query.get(int(user_id))
+
+class Fights(UserMixin, db.Model):
 
     __tablename__ = 'fighters'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), unique=True, nullable=False)
-    location = db.Column(db.String(200), nullable=False)
+    password = db.Column(db.String(80))
     img = db.Column(db.Text, unique=True, nullable=False)
     pic_name = db.Column(db.Text, nullable=False)
     mimetype = db.Column(db.Text, nullable=False)
@@ -61,10 +71,11 @@ class Table(db.Model):
 
 
 @application.route('/fighters', methods=['POST', 'GET'])
+@login_required
 def fighters():
     title = "Our current fighters"
     fighters = Fights.query.order_by(Fights.date_created)
-    return render_template('fighters.html', fighters=fighters, title=title)
+    return render_template('fighters.html', fighters=fighters, title=title, name=current_user.name)
 
 @application.route('/viewphoto/<int:id>', methods=['POST', 'GET'])
 def viewphoto(id):
@@ -127,18 +138,20 @@ def newfighter():
             pic = request.files['file']
             fighter_name = request.form['name']
             fighter_email = request.form['email']
-            fighter_loc = request.form['location']
+            fighter_pwd = request.form['password']
+            hashed_pwd = generate_password_hash(fighter_pwd, method='sha256')
+       
 
-            if not pic or not fighter_name or not fighter_email or not fighter_loc:
+            if not pic or not fighter_name or not fighter_email or not hashed_pwd:
                 error_msg = "Please complete all fields"
                 return render_template('newfighter.html', title=title, error_msg=error_msg, pic=pic, fighter_name=fighter_name,
-                fighter_email=fighter_email, fighter_loc=fighter_loc)
+                fighter_email=fighter_email, hashed_pwd=hashed_pwd)
         
         
             filename = secure_filename(pic.filename)
             mimetype = pic.mimetype
             new_fighter = Fights(name=fighter_name, email=fighter_email, 
-            location=fighter_loc, img=pic.read(), pic_name=filename, mimetype=mimetype)
+            password=hashed_pwd, img=pic.read(), pic_name=filename, mimetype=mimetype)
             new_table = Table(name=fighter_name, wins=0, draws=0, losses=0)
 
             db.session.add(new_fighter)
@@ -151,12 +164,6 @@ def newfighter():
         return f"There was an error adding your fighter {e}"
     else:
         return render_template('newfighter.html')
-
-
-
-@application.route('/')
-def index():
-    return render_template('index.html')
 
 
 def enable_logging():
@@ -173,9 +180,10 @@ def enable_logging():
 class Form(FlaskForm):
     first_opponent = SelectField('Select fighter', choices = [])
     second_opponent = SelectField('Select opponent', choices=[])
-    victor = SelectField('Select winner', choices=[])
+
 
 @application.route('/addnew', methods=['GET', 'POST'])
+@login_required
 def addnew():
     title = "Add New"
 
@@ -189,12 +197,11 @@ def addnew():
     tables = Table.query.order_by(Table.wins.desc())
     
     form = Form()
-    form.first_opponent.choices = [(Table.id, Table.name) for Table in Table.query.all()]
     form.second_opponent.choices = [(Table.id, Table.name) for Table in Table.query.all()]
- 
+    
 
     if request.method == 'POST':
-        PlayerOne = Table.query.filter_by(id=form.first_opponent.data).first()
+        PlayerOne = Table.query.filter_by(name=current_user.name).first()
         PlayerTwo = Table.query.filter_by(id=form.second_opponent.data).first()
 
         winner = False
@@ -230,9 +237,7 @@ def addnew():
         elif user1Guess < 1:
             guess_error = "Guess must be between 1 and 10"
             return render_template('addnew.html', guess_error=guess_error, title=title, form=form, tables=tables)
-        
-
-        
+                
         user1Guess = str(user1Guess)
         user2Guess = str(user2Guess)
         computerGuess = str(computerGuess)
@@ -251,17 +256,46 @@ def addnew():
             tie_statement = "%s and %s, a draw has been added to each of your records" % (PlayerOne.name, PlayerTwo.name)
         else:
             loss_statement = "You lose!"
-            playertwo_statement = "Congratulations %s! A win has been credited to your record" % (PlayerTwo.name)
+            playertwo_statement = "Unlucky! A loss has been credited to your record and a win to %s's record" % (PlayerTwo.name)
             PlayerOne.losses = PlayerOne.losses + 1
             PlayerTwo.wins = PlayerTwo.wins + 1
         db.session.commit()
         
         return render_template('addnew.html', victory_statement=victory_statement, title=title,
          form=form, tables=tables, loss_statement=loss_statement, draw_statement=draw_statement, details=details, congrat_statement=congrat_statement,
-         tie_statement=tie_statement, playertwo_statement=playertwo_statement)
+         tie_statement=tie_statement, playertwo_statement=playertwo_statement, name=current_user.name)
     
-    return render_template('addnew.html', title=title, form=form, tables=tables)
+    return render_template('addnew.html', title=title, form=form, tables=tables, name=current_user.name)
 
+
+@application.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+@application.route('/', methods=["POST", "GET"])
+def index():
+
+    form = Form()
+
+    if request.method == 'POST':
+        username = request.form['name']
+        password = request.form['password']
+        user = Fights.query.filter_by(name=username).first()
+        if user:
+            if check_password_hash(user.password, password):
+                login_user(user)
+                return redirect(url_for('fighters'))
+        
+
+    return render_template('/index.html', form=form)
+
+@application.route('/newpage', methods=['POST', 'GET'])
+def newpage():
+    form = Form()
+
+    return render_template('/newpage.html', name=current_user.name, form=form)
 
 if __name__ == '__main__':
     enable_logging()

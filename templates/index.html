@@ -1,18 +1,23 @@
-{% extends 'newpage.html' %}
-{% block title %} Fightclub - Home {% endblock title %}
-{% block content %}
-  <body>
-    <main>
-    <h1>Fight Club</h1>
-    <h2 class="welcome">Welcome!</h2>
-      <div class="home">
-        <li><a href="/newfighter">Create a user profile!</a></li>
-        <li><a href="/addnew">View our league table!</a></li>
-      </div>
-  
-        
-      
-    </main>
-  </body>
-</html>
+{% extends 'login.html' %} {% block title %} Fightclub - Login {% endblock title
+%} {% block content %}
+<body>
+  <main>
+    <h1>Welcome to Fightclub</h1>
+
+    <form class="sign-in" action="/" method="POST">
+      <p>If you have an account, please sign in.</p>
+
+      <input name="name" type="text" placeholder="Username" />
+      <br /><br />
+      <input name="password" type="password" placeholder="Password" />
+      <br /><br />
+      <input class="submit" type="submit" value="Sign in" />
+
+      <p>Otherwise, register and create your own profile today!</p>
+
+      <a class="back" href="/newfighter">Register!</a>
+    </form>
+  </main>
+</body>
+
 {% endblock %}
