@@ -1,4 +1,3 @@
-from sqlalchemy.orm import backref
 import logging
 from flask_cors import CORS, cross_origin
 from flask import Response
@@ -268,7 +267,7 @@ def addnew():
     return render_template('addnew.html', title=title, form=form, tables=tables, name=current_user.name)
 
 
-@application.route('/logout')
+@application.route('/logout', methods=['POST', 'GET'])
 @login_required
 def logout():
     logout_user()
@@ -287,6 +286,12 @@ def index():
             if check_password_hash(user.password, password):
                 login_user(user)
                 return redirect(url_for('fighters'))
+            else:
+                password_error = "Incorrect password"
+                return render_template("/index.html", error=password_error)
+        else:
+            login_error = "Incorrect username entered"
+            return render_template("/index.html", error=login_error)
         
 
     return render_template('/index.html', form=form)
