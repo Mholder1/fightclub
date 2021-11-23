@@ -1,4 +1,4 @@
-{% extends 'newpage.html' %} {% block title %}{{ title }}{% endblock title %}
+{% extends 'login.html' %} {% block title %}{{ title }}{% endblock title %}
 {%block content %}
 <body>
   <h1>Create your user profile</h1>
@@ -26,10 +26,10 @@
         placeholder="Email"
       /><br />
       <input
-        value="{{fighter_loc}}"
-        type="text"
-        name="location"
-        placeholder="Location"
+        value="{{fighter_pwd}}"
+        type="password"
+        name="password"
+        placeholder="Password"
       /><br /><br />
       <input
         class="custom-file-input"
@@ -40,10 +40,12 @@
 
       <input class="submit" type="submit" value="Create profile" />
       <br /><br />
-      <a class="back" href="/">Go back</a>
       <br /><br />
       <p class="success">{{ success }}</p>
       <div class="db-error">{{ error_msg }}</div>
+      <br /><br /><br /><br />
+
+      <a class="submit" href="/">Sign in!</a>
     </form>
   </div>
 </body>
